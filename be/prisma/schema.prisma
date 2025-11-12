@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  password  String
+  role      String   @default("staff") // admin | staff
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Supplier {
+  id        Int       @id @default(autoincrement())
+  name      String
+  phone     String?   @unique
+  address   String?
+  email     String?   @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  importReceipts ImportReceipt[]
+}
+
+model Customer {
+  id          Int           @id @default(autoincrement())
+  name        String
+  phone       String?       @unique
+  address     String?
+  email       String?       @unique
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  salesOrders SalesOrder[]
+}
+
+model Product {
+  id                  Int                  @id @default(autoincrement())
+  code                String               @unique
+  name                String
+  unit                String?              // Đơn vị: hộp, chai, thùng,...
+  price               Float?               // Giá bán mặc định
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  importItems         ImportItem[]
+  salesItems          SalesItem[]
+  inventoryMovements  InventoryMovement[]
+}
+
+model ImportReceipt {
+  id          Int           @id @default(autoincrement())
+  code        String         @unique
+  supplierId  Int?
+  supplier    Supplier?      @relation(fields: [supplierId], references: [id])
+  date        DateTime       @default(now())
+  totalAmount Float          @default(0)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  items       ImportItem[]
+}
+
+model ImportItem {
+  id              Int             @id @default(autoincrement())
+  importId        Int
+  productId       Int
+  quantity        Int
+  unitPrice       Float
+  remainQuantity  Int             // Còn lại trong kho từ lô này
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  product         Product         @relation(fields: [productId], references: [id])
+  importReceipt   ImportReceipt   @relation(fields: [importId], references: [id])
+}
+
+model SalesOrder {
+  id          Int           @id @default(autoincrement())
+  code        String         @unique
+  customerId  Int?
+  customer    Customer?      @relation(fields: [customerId], references: [id])
+  date        DateTime       @default(now())
+  totalAmount Float          @default(0)
+  totalCost   Float          @default(0)
+  profit      Float          @default(0)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  items       SalesItem[]
+}
+
+model SalesItem {
+  id          Int           @id @default(autoincrement())
+  orderId     Int
+  productId   Int
+  quantity    Int
+  salePrice   Float
+  costPrice   Float          // Giá vốn thực tế (tính từ lô nhập)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  product     Product        @relation(fields: [productId], references: [id])
+  order       SalesOrder     @relation(fields: [orderId], references: [id])
+}
+
+model InventoryMovement {
+  id           Int       @id @default(autoincrement())
+  productId    Int
+  type         String    // 'IMPORT' | 'SALE' | 'ADJUST'
+  quantity     Int
+  refTable     String?   // Bảng liên quan: import_items / sales_items
+  refId        Int?      // id của bản ghi gốc
+  createdAt    DateTime  @default(now())
+  product      Product   @relation(fields: [productId], references: [id])
+}
+
