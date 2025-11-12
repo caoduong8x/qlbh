@@ -5,17 +5,11 @@ import {
   ID_TOKEN,
   IS_AUTH,
   ROLE,
-  MADINHDANH_DONVI,
-  MADINHDANH_DONVICHA,
   USER_INFO,
-  ACCESS_TOKEN_SUPERSET,
-  ACCESS_TOKEN_ADMIN_SUPERSET,
-  DONVI_ID,
   IS_ADMIN,
-  LIST_CAU_TRUC_DU_LIEU,
-  MA_DINH_DANH_DON_VI_SELECTED,
   MA_NHOM_QUYEN,
   TEN_NHOM_QUYEN,
+  SIDENAV_COLOR,
 } from "services/constants";
 
 const webStorageClient = {
@@ -47,14 +41,6 @@ const webStorageClient = {
     this.set(ACCESS_TOKEN, value, option);
   },
 
-  setTokenSuperSet(value, option) {
-    this.set(ACCESS_TOKEN_SUPERSET, value, option);
-  },
-
-  setTokenAdminSuperSet(value, option) {
-    this.set(ACCESS_TOKEN_ADMIN_SUPERSET, value, option);
-  },
-
   setIDToken(value, option) {
     this.set(ID_TOKEN, value, option);
   },
@@ -69,19 +55,8 @@ const webStorageClient = {
     this.set(ROLE, value, option);
   },
 
-  setDonViId(value, option) {
-    this.set(DONVI_ID, value, option);
-  },
-
   setIsAdmin(value, option) {
     this.set(IS_ADMIN, value, option);
-  },
-
-  setMaDinhDanhDonVi(value, option) {
-    this.set(MADINHDANH_DONVI, value, option);
-  },
-  setMaDinhDanhDonViCha(value, option) {
-    this.set(MADINHDANH_DONVICHA, value, option);
   },
 
   setMaNhomQuyen(value, option) {
@@ -92,12 +67,8 @@ const webStorageClient = {
     this.set(TEN_NHOM_QUYEN, value, option);
   },
 
-  setListCauTrucDuLieu(value, option) {
-    this.set(LIST_CAU_TRUC_DU_LIEU, value, option);
-  },
-
-  setMaDinhDanhDonViSelected(value, option) {
-    this.set(MA_DINH_DANH_DON_VI_SELECTED, value, option);
+  setSidenavColor(value, option) {
+    this.set(SIDENAV_COLOR, value, option);
   },
 
   getAuth() {
@@ -106,14 +77,6 @@ const webStorageClient = {
 
   getToken() {
     return this.get(ACCESS_TOKEN);
-  },
-
-  getTokenSuperSet() {
-    return this.get(ACCESS_TOKEN_SUPERSET);
-  },
-
-  getTokenAdminSuperSet() {
-    return this.get(ACCESS_TOKEN_ADMIN_SUPERSET);
   },
 
   getIDToken() {
@@ -127,19 +90,8 @@ const webStorageClient = {
     return this.get(ROLE);
   },
 
-  getDonViId() {
-    return this.get(DONVI_ID);
-  },
-
   getIsAdmin() {
     return this.get(IS_ADMIN);
-  },
-
-  getMaDinhDanhDonVi() {
-    return this.get(MADINHDANH_DONVI);
-  },
-  getMaDinhDanhDonViCha() {
-    return this.get(MADINHDANH_DONVICHA);
   },
 
   getMaNhomQuyen() {
@@ -149,13 +101,8 @@ const webStorageClient = {
   getTenNhomQuyen() {
     return this.get(TEN_NHOM_QUYEN);
   },
-
-  getListCauTrucDuLieu() {
-    return this.get(LIST_CAU_TRUC_DU_LIEU);
-  },
-
-  getMaDinhDanhDonViSelected() {
-    return this.get(MA_DINH_DANH_DON_VI_SELECTED);
+  getSidenavColor() {
+    return this.get(SIDENAV_COLOR);
   },
 };
 

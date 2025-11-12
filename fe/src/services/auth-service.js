@@ -1,4 +1,3 @@
-import { SERVER_TYPE, SSO } from "./constants";
 import HttpService from "./http.service";
 import webStorageClient from "config/webStorageClient";
 
@@ -38,16 +37,6 @@ class AuthService {
   updateProfile = async (newInfo) => {
     const updateProfile = "me";
     return await HttpService.patch(updateProfile, newInfo);
-  };
-
-  ssoLogin = async (code) => {
-    const ssoLogin = `${SSO}/oauth/token?type=${SERVER_TYPE}&code=${code}`;
-    return await HttpService.get(ssoLogin);
-  };
-
-  ssoLoginUrl = async () => {
-    const ssoLoginUrl = `${SSO}/oauth/signin`;
-    return await HttpService.get(ssoLoginUrl);
   };
 }
 

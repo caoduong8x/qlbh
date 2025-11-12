@@ -17,7 +17,6 @@ import { endpointNhomQuyen } from "services/endpoint";
 import { Icon, TextField } from "../../../node_modules/@mui/material/index";
 import moduleApi from "./moduleApi";
 import { SelectComponent } from "components/Common/Select/SelectComponent";
-import { endpointDonVi } from "services/endpoint";
 import DataTable from "examples/Tables/DataTable/index";
 import { getRequest } from "services/request/getRequest";
 
@@ -403,21 +402,6 @@ const ThemNhomQuyen = () => {
         });
     }
   };
-
-  useEffect(() => {
-    const url = `${API_SERVER}${endpointDonVi?.DanhSachDonVi}`;
-
-    getRequest(url)
-      ?.then((res) => {
-        const result = res?.data?._embedded.map((item) => ({
-          [item.title]: item._id.$oid,
-        }));
-        setDataDonVi(result);
-      })
-      ?.catch((e) => {
-        console.log(e);
-      });
-  }, []);
 
   return (
     <DashboardLayout>

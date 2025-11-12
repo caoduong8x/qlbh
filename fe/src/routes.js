@@ -12,6 +12,7 @@ import AssessmentIcon from "@mui/icons-material/Assessment";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import WebStoriesIcon from "@mui/icons-material/WebStories";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import SendIcon from "@mui/icons-material/Send";
@@ -19,10 +20,6 @@ import IntegrationInstructionsIcon from "@mui/icons-material/IntegrationInstruct
 import HubIcon from "@mui/icons-material/Hub";
 // Images
 
-import QuanLyNguoiDung from "pages/QuanLyNguoiDung/QuanLyNguoiDung";
-import ChiTietNguoiDung from "pages/QuanLyNguoiDung/ChiTietNguoiDung";
-import CapNhatNguoiDung from "pages/QuanLyNguoiDung/CapNhatNguoiDung";
-import ThemNguoiDung from "pages/QuanLyNguoiDung/ThemNguoiDung";
 import QuanLyNhomQuyen from "pages/QuanLyNhomQuyen/QuanLyNhomQuyen";
 import ChiTietNhomQuyen from "pages/QuanLyNhomQuyen/ChiTietNhomQuyen";
 import CapNhatNhomQuyen from "pages/QuanLyNhomQuyen/CapNhatNhomQuyen";
@@ -32,8 +29,17 @@ import CapNhatPhanQuyen from "pages/QuanLyPhanQuyen/CapNhatPhanQuyen";
 import NhatKyHeThong from "pages/NhatKyHeThong/NhatKyHeThong";
 import ChiTietNhatKy from "pages/NhatKyHeThong/ChiTietNhatKy";
 import Profile from "pages/Profile/Profile";
+import KhachHang from "pages/KhachHang";
 
 const routes = [
+  {
+    key: 11,
+    route: "/khach-hang",
+    component: <KhachHang />,
+    icon: <SupervisedUserCircleIcon />,
+    name: "Quản lý khách hàng",
+    role: ["*"],
+  },
   {
     key: 1,
     route: "/quan-tri-he-thong",
@@ -43,15 +49,6 @@ const routes = [
     collapse: [
       {
         key: 1.1,
-        route: "/quan-ly-nguoi-dung",
-        component: <QuanLyNguoiDung />,
-        icon: <ManageAccountsIcon />,
-        name: "Quản lý người dùng",
-        role: ["*"],
-        level: 2,
-      },
-      {
-        key: 1.2,
         route: "/nhom-quyen",
         component: <QuanLyNhomQuyen />,
         icon: <WebStoriesIcon />,
@@ -60,7 +57,7 @@ const routes = [
         level: 2,
       },
       {
-        key: 1.3,
+        key: 1.2,
         route: "/phan-quyen",
         component: <QuanLyPhanQuyen />,
         icon: <AssignmentIndIcon />,
@@ -82,45 +79,10 @@ const routes = [
 
   {
     key: 2,
-    // route: MAIN_ROUTER.ALERT_LIST_V2,
-    // component: AlertListV2,
     icon: <LogoutIcon />,
     name: "Logout",
     level: 1,
     role: ["*"],
-  },
-
-  {
-    key: 3,
-    route: "/chi-tiet-nguoi-dung/:id",
-    component: <ChiTietNguoiDung />,
-    name: "Chi tiết người dùng",
-    icon: <ChiTietNguoiDung />,
-    show: false,
-    role: ["*"],
-    collapse: [
-      {
-        key: 3.1,
-        route: "/chi-tiet-nguoi-dung/:id",
-        component: <ChiTietNguoiDung />,
-        name: "Chi tiết người dùng",
-        role: ["*"],
-      },
-      {
-        key: 3.2,
-        route: "/cap-nhat-nguoi-dung/:id",
-        component: <CapNhatNguoiDung />,
-        name: "Cập nhật người dùng",
-        role: ["*"],
-      },
-      {
-        key: 3.3,
-        route: "/them-nguoi-dung",
-        component: <ThemNguoiDung />,
-        name: "Thêm người dùng",
-        role: ["*"],
-      },
-    ],
   },
 
   {

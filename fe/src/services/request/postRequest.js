@@ -10,7 +10,6 @@ const postRequest = (url, options, fomrData) => {
       headers: {
         Authorization: `Bearer ${tokenClient}`,
         "ngrok-skip-browser-warning": true,
-        "superset-token": options?.tokenLoginSuperSet || undefined,
         "Content-Type": fomrData ? fomrData : "application/json",
       },
     })
@@ -18,8 +17,7 @@ const postRequest = (url, options, fomrData) => {
       if (
         error.response &&
         error.response.status === 401 &&
-        !url.includes("/danh-sach-dashboard") &&
-        !url.includes("superset")
+        !url.includes("/danh-sach-dashboard")
       ) {
         webStorageClient.removeAll();
         window.location.href = `${BASE_URL}/login`;

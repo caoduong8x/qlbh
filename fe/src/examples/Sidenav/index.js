@@ -48,8 +48,13 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [openCollapse, setOpenCollapse] = useState([]);
   const [openNestedCollapse, setOpenNestedCollapse] = useState(false);
   const [controller, dispatch] = useMaterialUIController();
-  const { miniSidenav, transparentSidenav, whiteSidenav, darkMode } =
-    controller;
+  const {
+    miniSidenav,
+    transparentSidenav,
+    whiteSidenav,
+    darkMode,
+    sidenavColor,
+  } = controller;
   const location = useLocation();
   const navigate = useNavigate();
   const { pathname } = location;
@@ -198,7 +203,14 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     <SidenavRoot
       {...rest}
       variant="permanent"
-      ownerState={{ transparentSidenav, whiteSidenav, miniSidenav, darkMode }}
+      // ownerState={{ transparentSidenav, whiteSidenav, miniSidenav, darkMode }}
+      ownerState={{
+        transparentSidenav,
+        whiteSidenav,
+        miniSidenav,
+        darkMode,
+        sidenavColor,
+      }}
     >
       <MDBox pt={3} pb={1} px={4} textAlign="center">
         <MDBox
@@ -214,7 +226,13 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
             <Icon sx={{ fontWeight: "bold" }}>close</Icon>
           </MDTypography>
         </MDBox>
-        <MDBox component={NavLink} to="/" display="flex" alignItems="center">
+        <MDBox
+          component={NavLink}
+          to="/"
+          display="flex"
+          alignItems="center"
+          sx={{ textDecoration: "none" }}
+        >
           {brand && (
             <MDBox component="img" src={brand} alt="Brand" width="2rem" />
           )}

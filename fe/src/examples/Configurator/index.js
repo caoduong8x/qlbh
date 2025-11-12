@@ -222,7 +222,7 @@ function Configurator() {
           </MDBox>
         </MDBox>
 
-        <MDBox mt={3} lineHeight={1}>
+        {/* <MDBox mt={3} lineHeight={1}>
           <MDTypography variant="h6">Sidenav Type</MDTypography>
           <MDTypography variant="button" color="text">
             Choose between different sidenav types.
@@ -280,7 +280,7 @@ function Configurator() {
               White
             </MDButton>
           </MDBox>
-        </MDBox>
+        </MDBox> */}
         <MDBox
           display="flex"
           justifyContent="space-between"

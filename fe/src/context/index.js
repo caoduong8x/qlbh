@@ -201,6 +201,7 @@ function reducer(state, action) {
       return { ...state, whiteSidenav: action.value };
     }
     case "SIDENAV_COLOR": {
+      webStorageClient.setSidenavColor(action.value);
       return { ...state, sidenavColor: action.value };
     }
     case "TRANSPARENT_NAVBAR": {
@@ -233,7 +234,7 @@ function MaterialUIControllerProvider({ children }) {
     miniSidenav: false,
     transparentSidenav: false,
     whiteSidenav: false,
-    sidenavColor: "info",
+    sidenavColor: webStorageClient.getSidenavColor() || "info",
     transparentNavbar: true,
     fixedNavbar: true,
     openConfigurator: false,

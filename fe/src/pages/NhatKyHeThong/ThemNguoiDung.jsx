@@ -11,7 +11,6 @@ import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 import Checkbox from "@mui/material/Checkbox";
 import { API_SERVER } from "services/constants";
-import { endpointBase, endpointCsdlNganh } from "services/endpoint";
 import { getRequest, patchRequest, postRequest } from "services/request/index";
 import { AuthContext } from "context/index";
 import { Select, MenuItem, ListItemText, Collapse } from "@mui/material";

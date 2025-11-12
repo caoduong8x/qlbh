@@ -27,10 +27,10 @@ import DataTable from "examples/Tables/DataTable/index";
 // import { getRequest } from "services/request/getRequest";
 import { API_SERVER } from "services/constants";
 import {
-  endpointUser,
+  // endpointUser,
   endpointNhomQuyen,
   endpointPhanQuyen,
-  endpointDonVi,
+  // endpointDonVi,
 } from "services/endpoint";
 import { getRequest, deleteRequest, postRequest } from "services/request/index";
 import { XoaPhanQuyen } from "./XoaPhanQuyen";
@@ -294,21 +294,21 @@ const QuanLyPhanQuyen = () => {
       ],
     };
 
-    let url = `${API_SERVER}${endpointUser.DanhSachUser}`;
+    // let url = `${API_SERVER}${endpointUser.DanhSachUser}`;
 
-    const params = {
-      ...filterNguoiDung.params,
-      filter: JSON.stringify(combinedFilter),
-    };
+    // const params = {
+    //   ...filterNguoiDung.params,
+    //   filter: JSON.stringify(combinedFilter),
+    // };
 
-    getRequest(url, { params })
-      ?.then((res) => {
-        setListNguoiDung(res?.data?._embedded);
-        setTotalPageNguoiDung(res?.data?._total_pages);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // getRequest(url, { params })
+    //   ?.then((res) => {
+    //     setListNguoiDung(res?.data?._embedded);
+    //     setTotalPageNguoiDung(res?.data?._total_pages);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 
   const refreshList = () => {

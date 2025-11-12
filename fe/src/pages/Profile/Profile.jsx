@@ -53,7 +53,6 @@ import { useContext, useEffect, useState } from "react";
 import { getRequest } from "services/request/getRequest";
 import { API_SERVER } from "services/constants";
 import { AuthContext } from "context";
-import { endpointUser, endpointCurrentPermission } from "services/endpoint";
 import { set } from "date-fns";
 import DataTable from "examples/Tables/DataTable/index";
 import { useMaterialUIController } from "context/index";
@@ -69,39 +68,6 @@ function Profile() {
   const [tenNhomQuyen, setTenNhomQuyen] = useState();
   const { getCurrentUser, getTenNhomQuyen } = useContext(AuthContext);
   const [quyenChucNang, setQuyenChucNang] = useState([]);
-
-  useEffect(() => {
-    setTenNhomQuyen(getTenNhomQuyen());
-    const url = `${API_SERVER}${endpointUser.proFileUser}`;
-
-    getRequest(url)
-      .then((res) => {
-        setUser(res?.data?._embedded);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (user) {
-      let taiKhoan = user[0]?.taiKhoan;
-      if (taiKhoan) {
-        getRequest(
-          `${API_SERVER}${endpointCurrentPermission.GetByTaiKhoan}/${taiKhoan}`
-        )
-          ?.then((res) => {
-            if (res?.data?._embedded?.length > 0) {
-              let CRPermission = res?.data?._embedded[0];
-              setQuyenChucNang(CRPermission?.quyen?.chucNang || []);
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-    }
-  }, [user]);
 
   const data = {
     columns: [

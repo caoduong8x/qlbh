@@ -8,7 +8,6 @@ import Button from "@mui/material/Button";
 import { deleteRequest } from "services/request/index";
 import { AuthContext } from "context/index";
 import { API_SERVER } from "services/constants";
-import { endpointCsdlNganh } from "services/endpoint";
 import { useNavigate } from "react-router-dom";
 import { useMaterialUIController } from "context";
 import colors from "assets/theme/base/colors";

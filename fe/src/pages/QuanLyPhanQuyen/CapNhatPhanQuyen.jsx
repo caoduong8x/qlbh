@@ -14,7 +14,7 @@ import colors from "assets/theme/base/colors";
 import {
   endpointNhomQuyen,
   endpointPhanQuyen,
-  endpointUser,
+  // endpointUser,
 } from "services/endpoint";
 import { getRequest, patchRequest } from "services/request/index";
 import { Grid } from "../../../node_modules/@mui/material/index";
@@ -123,12 +123,12 @@ const CapNhatPhanQuyen = ({ edit }) => {
         setDataNhomQuyen(result);
         setDataSelect(transformedData);
         let taiKhoan = phanQuyenRes?.data?.taiKhoan || "";
-        if (taiKhoan.length > 0) {
-          let urlUser = `${API_SERVER}${endpointUser.GetByTaiKhoan}/${taiKhoan}`;
-          const res = await getRequest(urlUser);
-          if (Array.isArray(res?.data?._embedded))
-            setUserInfo(res?.data?._embedded[0]);
-        }
+        // if (taiKhoan.length > 0) {
+        //   let urlUser = `${API_SERVER}${endpointUser.GetByTaiKhoan}/${taiKhoan}`;
+        //   const res = await getRequest(urlUser);
+        //   if (Array.isArray(res?.data?._embedded))
+        //     setUserInfo(res?.data?._embedded[0]);
+        // }
       })
       .catch();
   }, []);

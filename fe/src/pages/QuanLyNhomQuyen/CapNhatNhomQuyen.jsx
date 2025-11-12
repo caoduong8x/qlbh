@@ -14,7 +14,7 @@ import { getRequest, patchRequest } from "services/request/index";
 import { AuthContext } from "context/index";
 import { useMaterialUIController } from "context";
 import colors from "assets/theme/base/colors";
-import { endpointNhomQuyen, endpointDonVi } from "services/endpoint";
+import { endpointNhomQuyen } from "services/endpoint";
 import DataTable from "examples/Tables/DataTable/index";
 import { Icon, TextField } from "../../../node_modules/@mui/material/index";
 import { XoaNhomQuyen } from "./XoaNhomQuyen";
@@ -173,13 +173,6 @@ const CapNhatNhomQuyen = () => {
     navigate("/nhom-quyen");
   };
 
-  const getDonVi = async (id) => {
-    let res = await getRequest(
-      `${API_SERVER}${endpointDonVi.ChiTietDonVi}/${id}`
-    );
-    setDonVi(res?.data);
-  };
-
   useEffect(() => {
     const currentPath = "/nhom-quyen";
     const getRoleArray = getRole();
@@ -224,12 +217,6 @@ const CapNhatNhomQuyen = () => {
         setLoading(false); // Đặt trạng thái tải thành false khi hoàn tất
       });
   }, []);
-
-  useEffect(() => {
-    if (formData?.donVi) {
-      getDonVi(formData?.donVi);
-    }
-  }, [formData]);
 
   if (loading) {
     return <div>Đang tải dữ liệu...</div>; // Hiển thị thông báo khi đang tải

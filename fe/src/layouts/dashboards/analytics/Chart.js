@@ -1,20 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { embedDashboard } from '@superset-ui/embedded-sdk';
-import axios from 'axios';
-import styled from 'styled-components';
-import { Grid } from '@mui/material';
-import MDTypography from 'components/MDTypography/index';
+import React, { useEffect, useRef, useState } from "react";
+import { embedDashboard } from "@superset-ui/embedded-sdk";
+import axios from "axios";
+import styled from "styled-components";
+import { Grid } from "@mui/material";
+import MDTypography from "components/MDTypography/index";
 
 import { BASE_SUPERSET } from "services/constants";
-import webStorageClient from 'config/webStorageClient';
-import MDButton from 'components/MDButton/index';
-import { XoaChart } from './XoaChart';
+import webStorageClient from "config/webStorageClient";
+import MDButton from "components/MDButton/index";
 
 const Main = styled.div`
   iframe {
     width: 100vw;
     @media (min-width: 768px) {
-        width: 92vw;
+      width: 92vw;
     }
     min-height: 80vw;
     max-height: max-content;
@@ -44,9 +43,12 @@ export const Chart = ({ title, idChart, infoChart, setReload, reload }) => {
           hideTitle: true,
           filters: {
             expanded: true,
-          }
+          },
         },
-        iframeSandboxExtras: ['allow-top-navigation', 'allow-popups-to-escape-sandbox']
+        iframeSandboxExtras: [
+          "allow-top-navigation",
+          "allow-popups-to-escape-sandbox",
+        ],
       });
     }
   }, [dataToken, idChart]);
@@ -71,12 +73,13 @@ export const Chart = ({ title, idChart, infoChart, setReload, reload }) => {
         user: { username: "guest" },
       };
 
-      axios.post(url, dataSubmit, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${tokenLoginSuperSet}`,
-        },
-      })
+      axios
+        .post(url, dataSubmit, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenLoginSuperSet}`,
+          },
+        })
         .then((response) => {
           const data = response.data;
           setDataToken(data.token);
@@ -92,16 +95,8 @@ export const Chart = ({ title, idChart, infoChart, setReload, reload }) => {
   }, [reloadDelete]);
 
   return (
-  <Grid container style={{ marginTop: "-20px" }}>
-    <XoaChart 
-      open={openDelete}
-      setOpen={setOpenDelete}
-      infoChart={infoChart}
-      setReloadDelete={setReloadDelete}
-      reloadDelete={reloadDelete} 
-    />
-    {
-      idChart ? (
+    <Grid container style={{ marginTop: "-20px" }}>
+      {idChart ? (
         <>
           <Grid container justifyContent="space-between" alignItems="center">
             <Grid item>
@@ -125,10 +120,10 @@ export const Chart = ({ title, idChart, infoChart, setReload, reload }) => {
               ref={iframeRef}
               id={idChart}
               style={{
-                width: '100%',
-                height: '100%',
-                border: 'none',
-                overflow: 'hidden',
+                width: "100%",
+                height: "100%",
+                border: "none",
+                overflow: "hidden",
               }}
             />
           </Grid>
@@ -141,8 +136,7 @@ export const Chart = ({ title, idChart, infoChart, setReload, reload }) => {
             Chưa có thống kê!
           </MDTypography>
         </MDTypography>
-      )
-    }
-  </Grid>
-);
+      )}
+    </Grid>
+  );
 };
