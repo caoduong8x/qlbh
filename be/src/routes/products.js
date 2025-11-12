@@ -1,16 +1,16 @@
 import express from "express";
 import prisma from "../prismaClient.js";
-import auth from "../middleware/auth.js";
+import verifyToken from "../middleware/auth.js";
 const router = express.Router();
 
 // get all products (protected)
-router.get("/", auth, async (req, res) => {
+router.get("/", verifyToken, async (req, res) => {
   const products = await prisma.product.findMany();
   res.json(products);
 });
 
 // create product (protected)
-router.post("/", auth, async (req, res) => {
+router.post("/", verifyToken, async (req, res) => {
   const { name, description, price, stock } = req.body;
   try {
     const p = await prisma.product.create({

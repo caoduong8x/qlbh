@@ -29,7 +29,7 @@ import CapNhatPhanQuyen from "pages/QuanLyPhanQuyen/CapNhatPhanQuyen";
 import NhatKyHeThong from "pages/NhatKyHeThong/NhatKyHeThong";
 import ChiTietNhatKy from "pages/NhatKyHeThong/ChiTietNhatKy";
 import Profile from "pages/Profile/Profile";
-import KhachHang from "pages/KhachHang";
+import KhachHang from "pages/KhachHang/QuanLyKhachHang";
 
 const routes = [
   {
@@ -39,6 +39,7 @@ const routes = [
     icon: <SupervisedUserCircleIcon />,
     name: "Quản lý khách hàng",
     role: ["*"],
+    collapse: [],
   },
   {
     key: 1,

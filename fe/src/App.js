@@ -202,7 +202,7 @@ export default function App({ ability }) {
         </>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Navigate to="/nhat-ky-he-thong" />} />
+          <Route path="/" element={<Navigate to="/khach-hang" />} />
           {getRoutes(routes)}
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>

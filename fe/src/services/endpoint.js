@@ -10,6 +10,8 @@ const endpointAuth = {
   CHANGE_INFO: `${prefixAuth}/users/changeUserInfo`,
 };
 
+const endpointKhachHang = "/customers";
+
 const endpointNhomQuyen = {
   UpdateNhomQuyen: "/data/rh/nhom-quyen/cap-nhat",
   ChiTietNhomQuyen: "/data/rh/nhom-quyen",
@@ -28,4 +30,10 @@ const endpointLog = {
   getAll: "/data/rh/nhat-ky-he-thong",
 };
 
-export { endpointAuth, endpointNhomQuyen, endpointPhanQuyen, endpointLog };
+export {
+  endpointAuth,
+  endpointKhachHang,
+  endpointNhomQuyen,
+  endpointPhanQuyen,
+  endpointLog,
+};
