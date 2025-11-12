@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // MUI & MD Components
@@ -7,52 +7,71 @@ import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 import MDSnackbar from "components/MDSnackbar";
+import { IconButton, InputAdornment } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 import AuthService from "services/auth-service";
 import { AuthContext } from "context";
 import IllustrationLayout from "layouts/authentication/components/IllustrationLayout";
 import bgImage from "assets/images/illustrations/logo_QNA.png";
 import webStorageClient from "config/webStorageClient";
+import { set } from "date-fns";
 
 function Login() {
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [inputs, setInputs] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState({
+    emailError: false,
+    passwordError: false,
+  });
+
+  const changeHandler = (e) => {
+    setInputs({
+      ...inputs,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const [snackbar, setSnackbar] = useState({
     open: false,
     color: "success",
     message: "",
   });
 
-  const onLogin = async () => {
+  const handleTogglePassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+  const onLogin = async (e) => {
+    e.preventDefault();
     if (webStorageClient.getToken() && webStorageClient.getAuth()) {
       return navigate("/");
     }
-    if (!email || !password) {
-      return setSnackbar({
-        open: true,
-        color: "error",
-        message: "Vui lòng nhập email và mật khẩu!",
-      });
+
+    const newErrors = {
+      emailError: inputs.email.trim().length === 0,
+      passwordError: inputs.password.trim().length === 0,
+    };
+
+    setErrors(newErrors);
+
+    if (newErrors.emailError || newErrors.passwordError) {
+      return;
     }
 
     try {
-      const res = await AuthService.login({ email, password });
-      console.log("res: ", res);
-
+      const res = await AuthService.login({
+        email: inputs.email,
+        password: inputs.password,
+      });
       if (res?.access_token) {
         webStorageClient.setToken(res?.access_token);
         webStorageClient.setAuth(true);
-
-        // setSnackbar({
-        //   open: true,
-        //   color: "success",
-        //   message: "Đăng nhập thành công!",
-        // });
-
-        // điều hướng sau 1 giây
-        // setTimeout(() => navigate("/"), 1000);
         navigate("/");
       } else {
         setSnackbar({
@@ -89,35 +108,59 @@ function Login() {
         </MDTypography>
       </MDBox>
 
-      <MDBox component="form" role="form">
+      <MDBox component="form" role="form" method="submit" onSubmit={onLogin}>
         <MDBox mb={2}>
           <MDInput
             type="email"
             label="Email"
+            variant="standard"
             fullWidth
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            InputLabelProps={{ shrink: true }}
+            name="email"
+            value={inputs.email}
+            onChange={changeHandler}
+            error={errors.emailError}
+            inputProps={{
+              autoComplete: "email",
+              form: {
+                autoComplete: "off",
+              },
+            }}
           />
+          {errors.emailError && (
+            <MDTypography variant="caption" color="error" fontWeight="light">
+              Bạn chưa nhập email!
+            </MDTypography>
+          )}
         </MDBox>
         <MDBox mb={2}>
           <MDInput
-            type="password"
+            type={showPassword ? "text" : "password"}
             label="Mật khẩu"
+            variant="standard"
             fullWidth
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            InputLabelProps={{ shrink: true }}
+            name="password"
+            value={inputs.password}
+            onChange={changeHandler}
+            error={errors.passwordError}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={handleTogglePassword}>
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
           />
+          {errors.passwordError && (
+            <MDTypography variant="caption" color="error" fontWeight="light">
+              Bạn chưa nhập mật khẩu!
+            </MDTypography>
+          )}
         </MDBox>
+
         <MDBox mt={4} mb={1}>
-          <MDButton
-            variant="gradient"
-            color="info"
-            size="large"
-            fullWidth
-            onClick={onLogin}
-          >
+          <MDButton variant="gradient" color="info" fullWidth type="submit">
             Đăng nhập
           </MDButton>
         </MDBox>

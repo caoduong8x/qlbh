@@ -15,19 +15,12 @@ Coded by www.creative-tim.com
 
 import { useState, useEffect } from "react";
 
-// react-github-btn
-import GitHubButton from "react-github-btn";
-
 // @mui material components
 import Divider from "@mui/material/Divider";
 import Switch from "@mui/material/Switch";
 import IconButton from "@mui/material/IconButton";
 import Link from "@mui/material/Link";
 import Icon from "@mui/material/Icon";
-
-// @mui icons
-import TwitterIcon from "@mui/icons-material/Twitter";
-import FacebookIcon from "@mui/icons-material/Facebook";
 
 // Material Dashboard 2 PRO React components
 import MDBox from "components/MDBox";
@@ -61,7 +54,14 @@ function Configurator() {
     darkMode,
   } = controller;
   const [disabled, setDisabled] = useState(false);
-  const sidenavColors = ["primary", "dark", "info", "success", "warning", "error"];
+  const sidenavColors = [
+    "primary",
+    "dark",
+    "info",
+    "success",
+    "warning",
+    "error",
+  ];
 
   // Use the useEffect hook to change the button state for the sidenav type based on window size.
   useEffect(() => {
@@ -121,11 +121,15 @@ function Configurator() {
     palette: { white, gradients, background },
   }) => ({
     height: pxToRem(39),
-    background: darkMode ? white.main : linearGradient(gradients.dark.main, gradients.dark.state),
+    background: darkMode
+      ? white.main
+      : linearGradient(gradients.dark.main, gradients.dark.state),
     color: darkMode ? background.sidenav : white.main,
 
     "&:hover, &:focus, &:focus:not(:hover)": {
-      background: darkMode ? white.main : linearGradient(gradients.dark.main, gradients.dark.state),
+      background: darkMode
+        ? white.main
+        : linearGradient(gradients.dark.main, gradients.dark.state),
       color: darkMode ? background.sidenav : white.main,
     },
   });
@@ -162,12 +166,11 @@ function Configurator() {
         </Icon>
       </MDBox>
 
-      {/* <Divider /> */}
+      <Divider />
 
       <MDBox pt={0.5} pb={3} px={3}>
-        {/* <MDBox>
+        <MDBox>
           <MDTypography variant="h6">Sidenav Colors</MDTypography>
-
           <MDBox mb={0.5}>
             {sidenavColors.map((color) => (
               <IconButton
@@ -180,7 +183,9 @@ function Configurator() {
                   width: "24px",
                   height: "24px",
                   padding: 0,
-                  border: `${borderWidth[1]} solid ${darkMode ? background.sidenav : white.main}`,
+                  border: `${borderWidth[1]} solid ${
+                    darkMode ? background.sidenav : white.main
+                  }`,
                   borderColor: () => {
                     let borderColorValue = sidenavColor === color && dark.main;
 
@@ -194,8 +199,14 @@ function Configurator() {
                     easing: transitions.easing.sharp,
                     duration: transitions.duration.shorter,
                   }),
-                  backgroundImage: ({ functions: { linearGradient }, palette: { gradients } }) =>
-                    linearGradient(gradients[color].main, gradients[color].state),
+                  backgroundImage: ({
+                    functions: { linearGradient },
+                    palette: { gradients },
+                  }) =>
+                    linearGradient(
+                      gradients[color].main,
+                      gradients[color].state
+                    ),
 
                   "&:not(:last-child)": {
                     mr: 1,
@@ -209,9 +220,9 @@ function Configurator() {
               />
             ))}
           </MDBox>
-        </MDBox> */}
+        </MDBox>
 
-        {/* <MDBox mt={3} lineHeight={1}>
+        <MDBox mt={3} lineHeight={1}>
           <MDTypography variant="h6">Sidenav Type</MDTypography>
           <MDTypography variant="button" color="text">
             Choose between different sidenav types.
@@ -269,8 +280,8 @@ function Configurator() {
               White
             </MDButton>
           </MDBox>
-        </MDBox> */}
-        {/* <MDBox
+        </MDBox>
+        <MDBox
           display="flex"
           justifyContent="space-between"
           alignItems="center"
@@ -282,85 +293,28 @@ function Configurator() {
           <Switch checked={fixedNavbar} onChange={handleFixedNavbar} />
         </MDBox>
         <Divider />
-        <MDBox display="flex" justifyContent="space-between" alignItems="center" lineHeight={1}>
+        <MDBox
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          lineHeight={1}
+        >
           <MDTypography variant="h6">Sidenav Mini</MDTypography>
 
           <Switch checked={miniSidenav} onChange={handleMiniSidenav} />
-        </MDBox> */}
+        </MDBox>
         <Divider />
-        <MDBox display="flex" justifyContent="space-between" alignItems="center" lineHeight={1}>
+        <MDBox
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          lineHeight={1}
+        >
           <MDTypography variant="h6">Light / Dark</MDTypography>
 
           <Switch checked={darkMode} onChange={handleDarkMode} />
         </MDBox>
         <Divider />
-        {/* <MDBox mt={3} mb={2}>
-          <MDBox mb={2}>
-            <MDButton
-              component={Link}
-              href="https://www.creative-tim.com/product/material-dashboard-pro-react-nodejs"
-              target="_blank"
-              rel="noreferrer"
-              color="info"
-              variant="gradient"
-              fullWidth
-            >
-              buy now
-            </MDButton>
-          </MDBox>
-          <MDButton
-            component={Link}
-            href="https://material-dashboard-react-node-docs.creative-tim.com/react/project-installation/material-dashboard-node/"
-            target="_blank"
-            rel="noreferrer"
-            color={darkMode ? "light" : "dark"}
-            variant="outlined"
-            fullWidth
-          >
-            view documentation
-          </MDButton>
-        </MDBox> */}
-        {/* <MDBox display="flex" justifyContent="center">
-          <GitHubButton
-            href="https://github.com/creativetimofficial/ct-material-dashboard-pro-react-nodejs"
-            data-icon="octicon-star"
-            data-size="large"
-            data-show-count="true"
-            aria-label="Star creativetimofficial/ct-material-dashboard-pro-react-nodejs on GitHub"
-          >
-            Star
-          </GitHubButton>
-        </MDBox> */}
-        <MDBox mt={2} textAlign="center">
-          {/* <MDBox mb={0.5}>
-            <MDTypography variant="h6">Thank you for sharing!</MDTypography>
-          </MDBox> */}
-
-          {/* <MDBox display="flex" justifyContent="center">
-            <MDBox mr={1.5}>
-              <MDButton
-                component={Link}
-                href="//twitter.com/intent/tweet?text=Check%20Material%20Dashboard%20%20PRO%20React%20made%20by%20%40CreativeTim%20and%20%40UPDIVISION%20%23webdesign%20%23dashboard%20%23react%20%23mui&url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fmaterial-dashboard-pro-react-nodejs"
-                target="_blank"
-                rel="noreferrer"
-                color="dark"
-              >
-                <TwitterIcon />
-                &nbsp; Tweet
-              </MDButton>
-            </MDBox>
-            <MDButton
-              component={Link}
-              href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/material-dashboard-pro-react-nodejs"
-              target="_blank"
-              rel="noreferrer"
-              color="dark"
-            >
-              <FacebookIcon />
-              &nbsp; Share
-            </MDButton>
-          </MDBox> */}
-        </MDBox>
       </MDBox>
     </ConfiguratorRoot>
   );
