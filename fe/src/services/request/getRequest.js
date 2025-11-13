@@ -2,7 +2,7 @@ import webStorageClient from "config/webStorageClient";
 import axiosInstance from "services/base/axiosInstance";
 import { BASE_URL } from "services/constants";
 
-const getRequest = (url, options) => {
+const getRequest = (url, options = {}) => {
   const params = options?.params;
   const tokenClient = webStorageClient.getToken();
   return axiosInstance

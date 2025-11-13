@@ -15,6 +15,7 @@ import { AuthContext } from "context";
 import IllustrationLayout from "layouts/authentication/components/IllustrationLayout";
 import bgImage from "assets/images/illustrations/logo_QNA.png";
 import webStorageClient from "config/webStorageClient";
+const sidenavColor = webStorageClient.getSidenavColor();
 import { set } from "date-fns";
 
 function Login() {
@@ -145,7 +146,11 @@ function Login() {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={handleTogglePassword}>
+                  <IconButton
+                    onClick={handleTogglePassword}
+                    color={sidenavColor ? sidenavColor : "inherit"}
+                    fontSize="small"
+                  >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
@@ -160,7 +165,7 @@ function Login() {
         </MDBox>
 
         <MDBox mt={4} mb={1}>
-          <MDButton variant="gradient" color="info" fullWidth type="submit">
+          <MDButton variant="gradient" fullWidth type="submit">
             Đăng nhập
           </MDButton>
         </MDBox>

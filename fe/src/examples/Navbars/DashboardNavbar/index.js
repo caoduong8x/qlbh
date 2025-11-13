@@ -56,6 +56,7 @@ import {
   setMiniSidenav,
   setOpenConfigurator,
 } from "context";
+import webStorageClient from "config/webStorageClient";
 import { AuthContext } from "context/index";
 import { useNavigate } from "react-router-dom";
 
@@ -69,6 +70,8 @@ function DashboardNavbar({
   const [navbarType, setNavbarType] = useState();
   const [user, setUser] = useState();
   const [controller, dispatch] = useMaterialUIController();
+
+  const sidenavColor = webStorageClient.getSidenavColor();
   const {
     miniSidenav,
     transparentNavbar,
@@ -81,6 +84,8 @@ function DashboardNavbar({
   const navigate = useNavigate();
   const [showButton, setShowButton] = useState(false);
 
+  const effectiveColor =
+    light || (darkMode ? "dark" : sidenavColor || "secondary");
   //get UserInfo
   useEffect(() => {
     setUser(authContext.getCurrentUser());
@@ -162,6 +167,7 @@ function DashboardNavbar({
       />
     </Menu>
   );
+  console.log("light: ", light);
 
   // Styles for the navbar icons
   const iconsStyle = ({
@@ -169,7 +175,8 @@ function DashboardNavbar({
     functions: { rgba },
   }) => ({
     color: () => {
-      let colorValue = light || darkMode ? white.main : dark.main;
+      let colorValue =
+        light || darkMode ? white.main : sidenavColor || dark.main;
 
       if (transparentNavbar && !light) {
         colorValue = darkMode ? rgba(text.main, 0.6) : text.main;
@@ -192,22 +199,22 @@ function DashboardNavbar({
           mb={{ xs: 1, md: 0 }}
           sx={(theme) => navbarRow(theme, { isMini })}
         >
+          <IconButton
+            sx={[navbarDesktopMenu, { pt: 1.6 }]}
+            onClick={handleMiniSidenav}
+            size="small"
+            disableRipple
+          >
+            <Icon fontSize="medium" color={effectiveColor}>
+              {miniSidenav ? "menu_open" : "menu"}
+            </Icon>
+          </IconButton>
           <Breadcrumbs
             icon="home"
             title={breadcrumbTitle ?? route[route.length - 1]}
             route={route}
             light={light}
           />
-          <IconButton
-            sx={navbarDesktopMenu}
-            onClick={handleMiniSidenav}
-            size="small"
-            disableRipple
-          >
-            <Icon fontSize="medium" sx={iconsStyle}>
-              {miniSidenav ? "menu_open" : "menu"}
-            </Icon>
-          </IconButton>
         </MDBox>
         {isMini ? null : (
           <MDBox sx={(theme) => navbarRow(theme, { isMini })}>
@@ -228,7 +235,7 @@ function DashboardNavbar({
                     });
                   }}
                 >
-                  <Icon sx={iconsStyle}>publishicon</Icon>
+                  <Icon color={effectiveColor}>publishicon</Icon>
                   {/* <PublishIcon
                     onClick={() => {
                       window.scrollTo({
@@ -260,7 +267,10 @@ function DashboardNavbar({
                   </MDTypography>
                 </MDBox> */}
 
-                <Icon onClick={() => navigate("/profile")} sx={iconsStyle}>
+                <Icon
+                  onClick={() => navigate("/profile")}
+                  color={effectiveColor}
+                >
                   account_circle
                 </Icon>
               </IconButton>
@@ -271,7 +281,7 @@ function DashboardNavbar({
                 sx={navbarMobileMenu}
                 onClick={handleMiniSidenav}
               >
-                <Icon sx={iconsStyle} fontSize="medium">
+                <Icon color={effectiveColor} fontSize="medium">
                   {miniSidenav ? "menu_open" : "menu"}
                 </Icon>
               </IconButton>
@@ -282,7 +292,7 @@ function DashboardNavbar({
                 sx={navbarIconButton}
                 onClick={handleConfiguratorOpen}
               >
-                <Icon sx={iconsStyle}>settings</Icon>
+                <Icon color={effectiveColor}>settings</Icon>
               </IconButton>
 
               {/* <IconButton

@@ -8,4 +8,5 @@ export const IS_ADMIN = "_is_admin";
 export const MA_NHOM_QUYEN = "_ma_nhom_quyen";
 export const TEN_NHOM_QUYEN = "_ten_nhom_quyen";
 export const SIDENAV_COLOR = "_sidenav_color";
+export const SYSTEM_COLOR = "_system_color";
 export const BASE_URL = process.env.REACT_APP_BASE_URL;

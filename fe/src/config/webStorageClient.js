@@ -68,7 +68,7 @@ const webStorageClient = {
   },
 
   setSidenavColor(value, option) {
-    this.set(SIDENAV_COLOR, value, option);
+    localStorage.setItem(SIDENAV_COLOR, JSON.stringify(value));
   },
 
   getAuth() {
@@ -102,7 +102,7 @@ const webStorageClient = {
     return this.get(TEN_NHOM_QUYEN);
   },
   getSidenavColor() {
-    return this.get(SIDENAV_COLOR);
+    return JSON.parse(localStorage.getItem(SIDENAV_COLOR));
   },
 };
 

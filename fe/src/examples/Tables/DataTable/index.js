@@ -42,6 +42,8 @@ import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDPagination from "components/MDPagination";
 import { Tooltip, IconButton } from "@mui/material";
+import webStorageClient from "config/webStorageClient";
+import { useMaterialUIController } from "context";
 
 // Material Dashboard 2 PRO React examples
 import DataTableHeadCell from "examples/Tables/DataTable/DataTableHeadCell";
@@ -77,6 +79,11 @@ function DataTable({
     : ["10", "20", "50", "100", "200"];
   const columns = useMemo(() => table.columns, [table]);
   const data = useMemo(() => table.rows, [table]);
+
+  const [controller] = useMaterialUIController();
+  const { darkMode } = controller;
+  const sidenavColor = webStorageClient.getSidenavColor();
+  console.log("sidenavColor: ", sidenavColor);
 
   const tableInstance = useTable(
     { columns, data, initialState: { pageIndex: 0 } },
@@ -241,11 +248,13 @@ function DataTable({
                           ? "error"
                           : button?.title.includes("Dừng")
                           ? "warning"
+                          : sidenavColor
+                          ? sidenavColor
                           : "info"
                       }
                       key={button?.id}
                       onClick={button?.onClick}
-                      sx={{ fontSize: "14px" }}
+                      sx={{ fontSize: "12px" }}
                     >
                       {button?.title.includes("Hủy") ? (
                         <Icon color="white">delete</Icon>
@@ -272,15 +281,19 @@ function DataTable({
                   <MDButton
                     variant="gradient"
                     color={
-                      button?.title === "Hủy chia sẻ"
+                      darkMode
+                        ? "dark"
+                        : button?.title === "Hủy chia sẻ"
                         ? "error"
                         : button?.title === "Dừng chia sẻ"
                         ? "warning"
+                        : sidenavColor
+                        ? sidenavColor
                         : "info"
                     }
                     key={button?.id}
                     onClick={button?.onClick}
-                    sx={{ fontSize: "14px" }}
+                    sx={{ fontSize: "12px" }}
                   >
                     {button?.title === "Hủy chia sẻ" ? (
                       <>

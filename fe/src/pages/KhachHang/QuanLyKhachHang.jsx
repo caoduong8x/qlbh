@@ -17,19 +17,19 @@ import MDBox from "components/MDBox/index";
 import Loading from "components/Loading";
 
 import { useMaterialUIController } from "context";
+import webStorageClient from "config/webStorageClient";
 import DataTable from "examples/Tables/DataTable/index";
-// import { getRequest } from "services/request/getRequest";
 import { API_SERVER } from "services/constants";
 import { endpointKhachHang } from "services/endpoint";
-import { getRequest, deleteRequest } from "services/request/index";
+import * as Services from "services/request/index";
 import { XoaNhomQuyen } from "./XoaNhomQuyen";
-import { debounce } from "lodash";
-
+import { debounce, get } from "lodash";
 const QuanLyKhachHang = () => {
   const navigate = useNavigate();
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
-
+  const sidenavColor = webStorageClient.getSidenavColor();
+  const fontSize = "small";
   const [listApprove, setListApprove] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -60,11 +60,9 @@ const QuanLyKhachHang = () => {
   }, [filter, openDelete]);
 
   const getKhachHang = () => {
-    let url = `${API_SERVER}${endpointKhachHang}`;
-
-    getRequest(url, filter)
+    const url = `${API_SERVER}${endpointKhachHang}`;
+    Services.getRequest(url, filter)
       ?.then((res) => {
-        console.log("res: ", res);
         setListApprove(res?.data || []);
         setTotalPage(res?.totalPages || 0);
       })
@@ -74,30 +72,24 @@ const QuanLyKhachHang = () => {
   };
 
   const getListExportExcel = async () => {
-    const urlListAll = `${API_SERVER}${endpointNhomQuyen.DanhSachNhomQuyen}`;
+    const url = `${API_SERVER}${endpointKhachHang}`;
     try {
-      const res = await getRequest(urlListAll);
-      let result = [];
-      let data = res?.data?._embedded || [];
+      const result = [];
+      const data =
+        (await Services.getRequest(url, { params: { getAll: true } }))?.data ||
+        [];
+      console.log("data: ", data);
       data.forEach((dt) => {
-        if (dt.quyenChucNang && dt.quyenChucNang.length > 0) {
-          dt.quyenChucNang.forEach((item) => {
-            let itemResult = {
-              maNhomQuyen: dt.maNhomQuyen,
-              tenNhomQuyen: dt.tenNhomQuyen,
-              maChucNang: item?.Ma,
-              tenChucNang: item?.Ten,
-              quyenXem: item?.HanhDong?.GET,
-              quyenThem: item?.HanhDong?.POST,
-              quyenSua: item?.HanhDong?.PATCH,
-              quyenXoa: item?.HanhDong?.DELETE,
-            };
-            result.push(itemResult);
-          });
-        }
+        let itemResult = {
+          name: dt.name || "",
+          address: dt.address || "",
+          phone: dt.phone || "",
+          email: dt.email || "",
+        };
+        result.push(itemResult);
       });
-      if (data) {
-        exportToExcel(data);
+      if (result.length > 0) {
+        exportToExcel(result);
       }
     } catch (err) {
       console.log(err);
@@ -110,25 +102,19 @@ const QuanLyKhachHang = () => {
 
     // Thiết lập tiêu đề cột
     worksheet.columns = [
-      { header: "Mã nhóm quyền", key: "maNhomQuyen", width: 20 },
-      { header: "Tên nhóm quyền", key: "tenNhomQuyen", width: 30 },
-      { header: "Chức năng", key: "tenChucNang", width: 50 },
-      { header: "Quyền xem", key: "quyenXem", width: 20 },
-      { header: "Quyền thêm", key: "quyenThem", width: 20 },
-      { header: "Quyền sửa", key: "quyenSua", width: 20 },
-      { header: "Quyền xóa", key: "quyenXoa", width: 20 },
+      { header: "Tên khách hàng", key: "name", width: 50 },
+      { header: "Địa chỉ", key: "address", width: 100 },
+      { header: "Điện thoại", key: "phone", width: 30 },
+      { header: "Email", key: "email", width: 30 },
     ];
 
     // Thêm dữ liệu vào worksheet
     listExportExcel.forEach((item) => {
       const rowData = {
-        maNhomQuyen: item?.maNhomQuyen || "",
-        tenNhomQuyen: item?.tenNhomQuyen || "",
-        tenChucNang: item?.tenChucNang || "",
-        quyenXem: item?.quyenXem || false,
-        quyenThem: item?.quyenThem || false,
-        quyenSua: item?.quyenSua || false,
-        quyenXoa: item?.quyenXoa || false,
+        name: item?.name || "",
+        address: item?.address || "",
+        phone: item?.phone || "",
+        email: item?.email || "",
       };
       worksheet.addRow(rowData);
     });
@@ -157,7 +143,7 @@ const QuanLyKhachHang = () => {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "Danh sách nhóm quyền.xlsx";
+    a.download = "Danh sách khách hàng.xlsx";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -313,7 +299,16 @@ const QuanLyKhachHang = () => {
                     navigate(`/chi-tiet-nhom-quyen/${value}`);
                   }}
                 >
-                  <RemoveRedEyeIcon color={darkMode ? "text" : "secondary"} />
+                  <RemoveRedEyeIcon
+                    fontSize={fontSize}
+                    color={
+                      darkMode
+                        ? "text"
+                        : sidenavColor
+                        ? sidenavColor
+                        : "secondary"
+                    }
+                  />
                 </IconButton>
               </Tooltip>
               <Tooltip title="Cập nhật">
@@ -322,7 +317,16 @@ const QuanLyKhachHang = () => {
                     navigate(`/cap-nhat-nhom-quyen/${value}`);
                   }}
                 >
-                  <EditIcon color={darkMode ? "text" : "secondary"} />
+                  <EditIcon
+                    fontSize={fontSize}
+                    color={
+                      darkMode
+                        ? "text"
+                        : sidenavColor
+                        ? sidenavColor
+                        : "secondary"
+                    }
+                  />
                 </IconButton>
               </Tooltip>
               <Tooltip title="Xoá">
@@ -332,7 +336,7 @@ const QuanLyKhachHang = () => {
                     setOpenDelete(true);
                   }}
                 >
-                  <DeleteIcon color={darkMode ? "text" : "secondary"} />
+                  <DeleteIcon fontSize={fontSize} color="error" />
                 </IconButton>
               </Tooltip>
             </MDBox>
@@ -371,7 +375,7 @@ const QuanLyKhachHang = () => {
       />
       <DashboardNavbar breadcrumbTitle="Danh sách khách hàng" />
       <Card sx={{ width: "100%", marginTop: "0.5rem" }}>
-        <MDBox p={2}>
+        <MDBox p={0}>
           {listApprove.length > 0 ? (
             <DataTable
               table={data}

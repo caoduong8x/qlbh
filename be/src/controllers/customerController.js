@@ -4,31 +4,37 @@ import prisma from "../prismaClient.js";
 // 🧾 Lấy danh sách khách hàng
 export const getCustomers = async (req, res) => {
   try {
-    let { page = 1, limit = 10, search = "" } = req.query;
-    console.log("req.query: ", req.query);
-    page = parseInt(page);
-    limit = parseInt(limit);
-    const skip = (page - 1) * limit;
+    let { page = 1, limit = 10, search = "", getAll = false } = req.query;
+    if (getAll) {
+      const customers = await prisma.customer.findMany();
+      res.json({ data: customers });
+    } else {
+      page = parseInt(page);
+      limit = parseInt(limit);
+      const skip = (page - 1) * limit;
 
-    // Điều kiện tìm kiếm
-    const where = search
-      ? {
-          OR: [{ name: { contains: search } }, { phone: { contains: search } }],
-        }
-      : {};
+      // Điều kiện tìm kiếm
+      const where = search
+        ? {
+            OR: [
+              { name: { contains: search } },
+              { phone: { contains: search } },
+            ],
+          }
+        : {};
 
-    // Đếm tổng
-    const total = await prisma.customer.count({ where });
-    const totalPages = Math.ceil(total / limit);
+      // Đếm tổng
+      const total = await prisma.customer.count({ where });
+      const totalPages = Math.ceil(total / limit);
 
-    const customers = await prisma.customer.findMany({
-      where,
-      skip,
-      take: limit,
-      orderBy: { id: "desc" },
-    });
-
-    res.json({ data: customers, total, totalPages, page, limit });
+      const customers = await prisma.customer.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { id: "desc" },
+      });
+      res.json({ data: customers, total, totalPages, page, limit });
+    }
   } catch (err) {
     console.log("err: ", err);
     res.status(500).json({ error: err.message });

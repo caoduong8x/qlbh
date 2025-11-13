@@ -1,63 +1,36 @@
-/**
-=========================================================
-* Material Dashboard 2 PRO React - v2.1.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import { forwardRef } from "react";
-
-// prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
-
-// Custom styles for MDButton
-import MDButtonRoot from "components/MDButton/MDButtonRoot";
-
-// Material Dashboard 2 PRO React contexts
+import BaseButton from "components/MDButton//BaseButton";
 import { useMaterialUIController } from "context";
+import webStorageClient from "config/webStorageClient";
 
-const MDButton = forwardRef(
-  ({ color, variant, size, circular, iconOnly, children, ...rest }, ref) => {
-    const [controller] = useMaterialUIController();
-    const { darkMode } = controller;
+const MDButton = forwardRef(({ children, color, ...rest }, ref) => {
+  const [controller] = useMaterialUIController();
+  const { darkMode } = controller;
+  const sidenavColor = webStorageClient.getSidenavColor();
 
-    return (
-      <MDButtonRoot
-        {...rest}
-        ref={ref}
-        color="primary"
-        variant={variant === "gradient" ? "contained" : variant}
-        size={size}
-        ownerState={{ color, variant, size, circular, iconOnly, darkMode }}
-      >
-        {children}
-      </MDButtonRoot>
-    );
-  }
-);
+  // Ưu tiên: color prop > darkMode > sidenavColor > secondary
+  const effectiveColor =
+    color || (darkMode ? "dark" : sidenavColor || "secondary");
 
-// Setting default values for the props of MDButton
+  return (
+    <BaseButton ref={ref} color={effectiveColor} {...rest}>
+      {children}
+    </BaseButton>
+  );
+});
+
 MDButton.defaultProps = {
-  size: "medium",
+  color: null,
   variant: "contained",
-  color: "white",
+  size: "small",
   circular: false,
   iconOnly: false,
 };
 
-// Typechecking props for the MDButton
 MDButton.propTypes = {
-  size: PropTypes.oneOf(["small", "medium", "large"]),
-  variant: PropTypes.oneOf(["text", "contained", "outlined", "gradient"]),
   color: PropTypes.oneOf([
+    null,
     "white",
     "primary",
     "secondary",
@@ -68,6 +41,8 @@ MDButton.propTypes = {
     "light",
     "dark",
   ]),
+  variant: PropTypes.oneOf(["text", "contained", "outlined", "gradient"]),
+  size: PropTypes.oneOf(["small", "medium", "large"]),
   circular: PropTypes.bool,
   iconOnly: PropTypes.bool,
   children: PropTypes.node.isRequired,
