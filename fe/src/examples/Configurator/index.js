@@ -26,6 +26,7 @@ import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDButton from "components/MDButton";
+import MDSwitch from "components/MDSwitch";
 
 // Custom styles for the Configurator
 import ConfiguratorRoot from "examples/Configurator/ConfiguratorRoot";
@@ -41,6 +42,7 @@ import {
   setSidenavColor,
   setDarkMode,
 } from "context";
+import webStorageClient from "config/webStorageClient";
 
 function Configurator() {
   const [controller, dispatch] = useMaterialUIController();
@@ -53,6 +55,8 @@ function Configurator() {
     whiteSidenav,
     darkMode,
   } = controller;
+  const effectiveColor = darkMode ? "dark" : sidenavColor || "secondary";
+  console.log("effectiveColor: ", effectiveColor);
   const [disabled, setDisabled] = useState(false);
   const sidenavColors = [
     "primary",
@@ -290,7 +294,11 @@ function Configurator() {
         >
           <MDTypography variant="h6">Navbar Fixed</MDTypography>
 
-          <Switch checked={fixedNavbar} onChange={handleFixedNavbar} />
+          <MDSwitch
+            checked={fixedNavbar}
+            onChange={handleFixedNavbar}
+            color="secondary"
+          />
         </MDBox>
         <Divider />
         <MDBox
@@ -301,7 +309,7 @@ function Configurator() {
         >
           <MDTypography variant="h6">Sidenav Mini</MDTypography>
 
-          <Switch checked={miniSidenav} onChange={handleMiniSidenav} />
+          <MDSwitch checked={miniSidenav} onChange={handleMiniSidenav} />
         </MDBox>
         <Divider />
         <MDBox
@@ -312,7 +320,7 @@ function Configurator() {
         >
           <MDTypography variant="h6">Light / Dark</MDTypography>
 
-          <Switch checked={darkMode} onChange={handleDarkMode} />
+          <MDSwitch checked={darkMode} onChange={handleDarkMode} />
         </MDBox>
         <Divider />
       </MDBox>

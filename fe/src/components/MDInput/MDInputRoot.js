@@ -16,6 +16,8 @@ Coded by www.creative-tim.com
 // @mui material components
 import TextField from "@mui/material/TextField";
 import { styled } from "@mui/material/styles";
+import webStorageClient from "config/webStorageClient";
+import colors from "assets/theme/base/colors";
 
 export default styled(TextField)(({ theme, ownerState }) => {
   const { palette, functions } = theme;
@@ -28,6 +30,38 @@ export default styled(TextField)(({ theme, ownerState }) => {
     success: colorSuccess,
   } = palette;
   const { pxToRem } = functions;
+
+  // 🚀 Tính màu dynamic
+  const sidenavColor = webStorageClient.getSidenavColor();
+  const darkMode = webStorageClient.getDarkMode();
+  const colorKey = darkMode ? "light" : sidenavColor;
+  const colorHex =
+    colors.coloredShadows[colorKey] || colors.coloredShadows.info;
+
+  // focus styles (normal state - not error/success)
+  const focusStyles = {
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: colorHex,
+    },
+    "& .MuiInputLabel-root.Mui-focused": {
+      color: colorHex,
+    },
+  };
+
+  const underlineStyles = {
+    "& .MuiInput-underline:before": {
+      borderBottomColor: colorHex, // màu default
+    },
+    "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
+      borderBottomColor: colorHex, // màu khi hover
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: colorHex + " !important", // màu khi focus
+    },
+    "& .MuiInputLabel-root.Mui-focused": {
+      color: colorHex,
+    },
+  };
 
   // styles for the input with error={true}
   const errorStyles = () => ({
@@ -70,7 +104,13 @@ export default styled(TextField)(({ theme, ownerState }) => {
   return {
     backgroundColor: disabled ? `${grey[200]} !important` : transparent.main,
     pointerEvents: disabled ? "none" : "auto",
+    "& .MuiInputLabel-root": {
+      color: colorHex,
+    },
+
     ...(error && errorStyles()),
     ...(success && successStyles()),
+    ...(!error && !success && focusStyles),
+    ...underlineStyles,
   };
 });

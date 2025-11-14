@@ -15,12 +15,12 @@ import { AuthContext } from "context";
 import IllustrationLayout from "layouts/authentication/components/IllustrationLayout";
 import bgImage from "assets/images/illustrations/logo_QNA.png";
 import webStorageClient from "config/webStorageClient";
-const sidenavColor = webStorageClient.getSidenavColor();
 import { set } from "date-fns";
 
 function Login() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const sidenavColor = webStorageClient.getSidenavColor();
 
   const [inputs, setInputs] = useState({
     email: "",
@@ -149,7 +149,6 @@ function Login() {
                   <IconButton
                     onClick={handleTogglePassword}
                     color={sidenavColor ? sidenavColor : "inherit"}
-                    fontSize="small"
                   >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>

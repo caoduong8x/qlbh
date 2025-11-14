@@ -10,6 +10,7 @@ import {
   MA_NHOM_QUYEN,
   TEN_NHOM_QUYEN,
   SIDENAV_COLOR,
+  DARK_MODE,
 } from "services/constants";
 
 const webStorageClient = {
@@ -71,6 +72,10 @@ const webStorageClient = {
     localStorage.setItem(SIDENAV_COLOR, JSON.stringify(value));
   },
 
+  setDarkMode(value, option) {
+    localStorage.setItem(DARK_MODE, JSON.stringify(value));
+  },
+
   getAuth() {
     return this.get(IS_AUTH);
   },
@@ -103,6 +108,10 @@ const webStorageClient = {
   },
   getSidenavColor() {
     return JSON.parse(localStorage.getItem(SIDENAV_COLOR));
+  },
+
+  getDarkMode() {
+    return JSON.parse(localStorage.getItem(DARK_MODE));
   },
 };
 

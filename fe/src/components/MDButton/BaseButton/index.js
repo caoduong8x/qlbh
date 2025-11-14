@@ -28,7 +28,7 @@ const sidenavColor = webStorageClient.getSidenavColor();
 const BaseButton = forwardRef(
   ({ color, variant, size, circular, iconOnly, children, ...rest }, ref) => {
     const [controller] = useMaterialUIController();
-    const { darkMode } = controller;
+    const { darkMode, sidenavColor } = controller;
 
     return (
       <MDButtonRoot

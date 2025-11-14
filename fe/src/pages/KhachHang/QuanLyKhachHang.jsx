@@ -27,8 +27,7 @@ import { debounce, get } from "lodash";
 const QuanLyKhachHang = () => {
   const navigate = useNavigate();
   const [controller] = useMaterialUIController();
-  const { darkMode } = controller;
-  const sidenavColor = webStorageClient.getSidenavColor();
+  const { darkMode, sidenavColor } = controller;
   const fontSize = "small";
   const [listApprove, setListApprove] = useState([]);
   const [page, setPage] = useState(1);

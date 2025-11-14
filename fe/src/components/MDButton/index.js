@@ -6,8 +6,7 @@ import webStorageClient from "config/webStorageClient";
 
 const MDButton = forwardRef(({ children, color, ...rest }, ref) => {
   const [controller] = useMaterialUIController();
-  const { darkMode } = controller;
-  const sidenavColor = webStorageClient.getSidenavColor();
+  const { darkMode, sidenavColor } = controller;
 
   // Ưu tiên: color prop > darkMode > sidenavColor > secondary
   const effectiveColor =

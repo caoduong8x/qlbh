@@ -220,6 +220,7 @@ function reducer(state, action) {
       return { ...state, layout: action.value };
     }
     case "DARKMODE": {
+      webStorageClient.setDarkMode(action.value);
       return { ...state, darkMode: action.value };
     }
     default: {

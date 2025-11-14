@@ -71,13 +71,13 @@ function DashboardNavbar({
   const [user, setUser] = useState();
   const [controller, dispatch] = useMaterialUIController();
 
-  const sidenavColor = webStorageClient.getSidenavColor();
   const {
     miniSidenav,
     transparentNavbar,
     fixedNavbar,
     openConfigurator,
     darkMode,
+    sidenavColor,
   } = controller;
   const [openMenu, setOpenMenu] = useState(false);
   const authContext = useContext(AuthContext);
@@ -167,7 +167,6 @@ function DashboardNavbar({
       />
     </Menu>
   );
-  console.log("light: ", light);
 
   // Styles for the navbar icons
   const iconsStyle = ({

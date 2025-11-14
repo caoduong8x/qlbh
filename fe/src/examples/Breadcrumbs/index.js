@@ -11,14 +11,12 @@ import Icon from "@mui/material/Icon";
 // Material Dashboard 2 PRO React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import webStorageClient from "config/webStorageClient";
 import { useMaterialUIController } from "context";
 
 function Breadcrumbs({ icon, title, route, light }) {
   const [controller] = useMaterialUIController();
-  const { darkMode } = controller;
+  const { darkMode, sidenavColor } = controller;
   // const routes = route.slice(0, -1);
-  const sidenavColor = webStorageClient.getSidenavColor();
   return (
     <MDBox mr={{ xs: 0, xl: 8 }}>
       <MDBox display="flex" alignItems="center" gap={1}>

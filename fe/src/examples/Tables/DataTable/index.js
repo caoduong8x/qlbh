@@ -81,9 +81,7 @@ function DataTable({
   const data = useMemo(() => table.rows, [table]);
 
   const [controller] = useMaterialUIController();
-  const { darkMode } = controller;
-  const sidenavColor = webStorageClient.getSidenavColor();
-  console.log("sidenavColor: ", sidenavColor);
+  const { darkMode, sidenavColor } = controller;
 
   const tableInstance = useTable(
     { columns, data, initialState: { pageIndex: 0 } },
