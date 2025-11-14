@@ -55,8 +55,6 @@ function Configurator() {
     whiteSidenav,
     darkMode,
   } = controller;
-  const effectiveColor = darkMode ? "dark" : sidenavColor || "secondary";
-  console.log("effectiveColor: ", effectiveColor);
   const [disabled, setDisabled] = useState(false);
   const sidenavColors = [
     "primary",

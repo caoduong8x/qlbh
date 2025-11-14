@@ -38,6 +38,7 @@ import MDTypography from "components/MDTypography";
 import Breadcrumbs from "examples/Breadcrumbs";
 import NotificationItem from "examples/Items/NotificationItem";
 import PublishIcon from "@mui/icons-material/Publish";
+import colors from "assets/theme/base/colors";
 
 // Custom styles for DashboardNavbar
 import {
@@ -85,7 +86,10 @@ function DashboardNavbar({
   const [showButton, setShowButton] = useState(false);
 
   const effectiveColor =
-    light || (darkMode ? "dark" : sidenavColor || "secondary");
+    light ||
+    (darkMode
+      ? colors.gradients.light.main
+      : colors.gradients[sidenavColor].main || colors.gradients.info.main);
   //get UserInfo
   useEffect(() => {
     setUser(authContext.getCurrentUser());
@@ -204,7 +208,7 @@ function DashboardNavbar({
             size="small"
             disableRipple
           >
-            <Icon fontSize="medium" color={effectiveColor}>
+            <Icon fontSize="medium" style={{ color: effectiveColor }}>
               {miniSidenav ? "menu_open" : "menu"}
             </Icon>
           </IconButton>
@@ -234,7 +238,7 @@ function DashboardNavbar({
                     });
                   }}
                 >
-                  <Icon color={effectiveColor}>publishicon</Icon>
+                  <Icon style={{ color: effectiveColor }}>publishicon</Icon>
                   {/* <PublishIcon
                     onClick={() => {
                       window.scrollTo({
@@ -268,7 +272,7 @@ function DashboardNavbar({
 
                 <Icon
                   onClick={() => navigate("/profile")}
-                  color={effectiveColor}
+                  style={{ color: effectiveColor }}
                 >
                   account_circle
                 </Icon>
@@ -280,7 +284,7 @@ function DashboardNavbar({
                 sx={navbarMobileMenu}
                 onClick={handleMiniSidenav}
               >
-                <Icon color={effectiveColor} fontSize="medium">
+                <Icon style={{ color: effectiveColor }} fontSize="medium">
                   {miniSidenav ? "menu_open" : "menu"}
                 </Icon>
               </IconButton>
@@ -291,7 +295,7 @@ function DashboardNavbar({
                 sx={navbarIconButton}
                 onClick={handleConfiguratorOpen}
               >
-                <Icon color={effectiveColor}>settings</Icon>
+                <Icon style={{ color: effectiveColor }}>settings</Icon>
               </IconButton>
 
               {/* <IconButton

@@ -219,7 +219,7 @@ function reducer(state, action) {
     case "LAYOUT": {
       return { ...state, layout: action.value };
     }
-    case "DARKMODE": {
+    case "DARK_MODE": {
       webStorageClient.setDarkMode(action.value);
       return { ...state, darkMode: action.value };
     }
@@ -241,7 +241,7 @@ function MaterialUIControllerProvider({ children }) {
     openConfigurator: false,
     direction: "ltr",
     layout: "dashboard",
-    darkMode: false,
+    darkMode: webStorageClient.getDarkMode() ?? false,
   };
 
   const [controller, dispatch] = useReducer(reducer, initialState);
@@ -286,7 +286,7 @@ const setOpenConfigurator = (dispatch, value) =>
 const setDirection = (dispatch, value) =>
   dispatch({ type: "DIRECTION", value });
 const setLayout = (dispatch, value) => dispatch({ type: "LAYOUT", value });
-const setDarkMode = (dispatch, value) => dispatch({ type: "DARKMODE", value });
+const setDarkMode = (dispatch, value) => dispatch({ type: "DARK_MODE", value });
 
 export {
   AuthContextProvider,

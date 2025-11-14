@@ -3,17 +3,27 @@ import PropTypes from "prop-types";
 import BaseButton from "components/MDButton//BaseButton";
 import { useMaterialUIController } from "context";
 import webStorageClient from "config/webStorageClient";
+import colors from "assets/theme/base/colors";
+import { text } from "../../../node_modules/@fortawesome/fontawesome-svg-core/index";
 
 const MDButton = forwardRef(({ children, color, ...rest }, ref) => {
+  console.log("color: ", color);
   const [controller] = useMaterialUIController();
   const { darkMode, sidenavColor } = controller;
 
   // Ưu tiên: color prop > darkMode > sidenavColor > secondary
   const effectiveColor =
-    color || (darkMode ? "dark" : sidenavColor || "secondary");
+    color ||
+    (darkMode
+      ? colors.gradients.light.main
+      : colors.gradients[sidenavColor].main || colors.gradients.info.main);
 
   return (
-    <BaseButton ref={ref} color={effectiveColor} {...rest}>
+    <BaseButton
+      ref={ref}
+      style={{ backgroundColor: effectiveColor, color: colors.white.main }}
+      {...rest}
+    >
       {children}
     </BaseButton>
   );

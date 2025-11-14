@@ -24,11 +24,10 @@ import MDButtonRoot from "components/MDButton/BaseButton/MDButtonRoot";
 // Material Dashboard 2 PRO React contexts
 import { useMaterialUIController } from "context";
 import webStorageClient from "config/webStorageClient";
-const sidenavColor = webStorageClient.getSidenavColor();
 const BaseButton = forwardRef(
   ({ color, variant, size, circular, iconOnly, children, ...rest }, ref) => {
     const [controller] = useMaterialUIController();
-    const { darkMode, sidenavColor } = controller;
+    const { darkMode } = controller;
 
     return (
       <MDButtonRoot
@@ -49,7 +48,7 @@ const BaseButton = forwardRef(
 BaseButton.defaultProps = {
   size: "small",
   variant: "contained",
-  color: sidenavColor || "white",
+  color: "white",
   circular: false,
   iconOnly: false,
 };

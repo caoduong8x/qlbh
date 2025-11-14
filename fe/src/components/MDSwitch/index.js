@@ -5,23 +5,6 @@ import colors from "assets/theme/base/colors";
 
 // Styled Switch nhận props hex
 const MDSwitchStyled = styled(Switch)(({ hex }) => ({
-  "&& .MuiSwitch-switchBase.Mui-checked": {
-    color: hex,
-  },
-  "&& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
-    backgroundColor: `${hex} !important`,
-    opacity: 1, // tránh bị mờ
-  },
-  "&& .MuiSwitch-track": {
-    borderRadius: 22,
-    border: `1px solid ${hex}`,
-    backgroundColor: "transparent",
-  },
-  "&& .MuiSwitch-thumb": {
-    border: `1px solid ${hex}`,
-    backgroundColor: `${hex}`,
-  },
-
   "&& .MuiSwitch-switchBase.Mui-checked .MuiSwitch-thumb": {
     border: `1px solid ${hex}`,
     backgroundColor: `${hex} !important`,
@@ -49,7 +32,8 @@ export default function MDSwitch(props) {
   const colorKey = darkMode ? "light" : sidenavColor;
   console.log("colorKey: ", colorKey);
   const colorHex =
-    colors.coloredShadows[colorKey] || colors.coloredShadows.info;
+    colors.gradients[colorKey].main || colors.gradients.info.main;
+  console.log("colorHex: ", colorHex);
 
   return <MDSwitchStyled hex={colorHex} {...props} />;
 }

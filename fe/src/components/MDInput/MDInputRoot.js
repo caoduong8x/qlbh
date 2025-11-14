@@ -35,8 +35,7 @@ export default styled(TextField)(({ theme, ownerState }) => {
   const sidenavColor = webStorageClient.getSidenavColor();
   const darkMode = webStorageClient.getDarkMode();
   const colorKey = darkMode ? "light" : sidenavColor;
-  const colorHex =
-    colors.coloredShadows[colorKey] || colors.coloredShadows.info;
+  const colorHex = colors[colorKey].main || colors.info.main;
 
   // focus styles (normal state - not error/success)
   const focusStyles = {

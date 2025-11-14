@@ -16,6 +16,7 @@ import IllustrationLayout from "layouts/authentication/components/IllustrationLa
 import bgImage from "assets/images/illustrations/logo_QNA.png";
 import webStorageClient from "config/webStorageClient";
 import { set } from "date-fns";
+import colors from "assets/theme/base/colors";
 
 function Login() {
   const navigate = useNavigate();
@@ -148,7 +149,12 @@ function Login() {
                 <InputAdornment position="end">
                   <IconButton
                     onClick={handleTogglePassword}
-                    color={sidenavColor ? sidenavColor : "inherit"}
+                    // color={sidenavColor ? sidenavColor : "#00bbd4"}
+                    style={{
+                      color: sidenavColor
+                        ? colors[sidenavColor].main
+                        : colors.info.main,
+                    }}
                   >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>

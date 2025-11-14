@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 // @mui material components
 import { Breadcrumbs as MuiBreadcrumbs } from "@mui/material";
 import Icon from "@mui/material/Icon";
+import colors from "assets/theme/base/colors";
 
 // Material Dashboard 2 PRO React components
 import MDBox from "components/MDBox";
@@ -16,6 +17,11 @@ import { useMaterialUIController } from "context";
 function Breadcrumbs({ icon, title, route, light }) {
   const [controller] = useMaterialUIController();
   const { darkMode, sidenavColor } = controller;
+  const effectiveColor =
+    light ||
+    (darkMode
+      ? colors.gradients.light.main
+      : colors.gradients[sidenavColor].main || colors.gradients.info.main);
   // const routes = route.slice(0, -1);
   return (
     <MDBox mr={{ xs: 0, xl: 8 }}>
@@ -36,12 +42,7 @@ function Breadcrumbs({ icon, title, route, light }) {
               // opacity={light ? 0.8 : 0.5}
               sx={{ lineHeight: 0 }}
             >
-              <Icon
-                fontSize="medium"
-                color={
-                  darkMode ? "dark" : sidenavColor ? sidenavColor : "inherit"
-                }
-              >
+              <Icon fontSize="medium" style={{ color: effectiveColor }}>
                 {icon}
               </Icon>
             </MDTypography>
@@ -65,7 +66,7 @@ function Breadcrumbs({ icon, title, route, light }) {
           fontWeight="bold"
           textTransform="capitalize"
           variant="h6"
-          color={darkMode ? "dark" : sidenavColor ? sidenavColor : "inherit"}
+          style={{ color: effectiveColor }}
           noWrap
         >
           {title.replace("-", " ")}
