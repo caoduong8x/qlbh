@@ -3,21 +3,21 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import ExcelJS from "exceljs";
 import Card from "@mui/material/Card";
-import { Tooltip, IconButton } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import Checkbox from "@mui/material/Checkbox";
+import { IconButton } from "@mui/material";
+import MDTooltip from "components/MDTooltip/index";
 
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout/index";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar/index";
 import MDTypography from "components/MDTypography/index";
-import { AuthContext } from "context/index";
+import MDEditIcon from "components/MDEditIcon/index";
+import MDViewIcon from "components/MDViewIcon/index";
+import MDDeleteIcon from "components/MDDeleteIcon/index";
+
 import MDBox from "components/MDBox/index";
 import Loading from "components/Loading";
 
 import { useMaterialUIController } from "context";
-import webStorageClient from "config/webStorageClient";
+
 import DataTable from "examples/Tables/DataTable/index";
 import { API_SERVER } from "services/constants";
 import { endpointKhachHang } from "services/endpoint";
@@ -27,7 +27,7 @@ import { debounce, get } from "lodash";
 const QuanLyKhachHang = () => {
   const navigate = useNavigate();
   const [controller] = useMaterialUIController();
-  const { darkMode, sidenavColor } = controller;
+  const { darkMode } = controller;
   const fontSize = "small";
   const [listApprove, setListApprove] = useState([]);
   const [page, setPage] = useState(1);
@@ -292,52 +292,43 @@ const QuanLyKhachHang = () => {
         Cell: ({ cell: { value } }) => {
           return (
             <MDBox display="flex" alignItems="center">
-              <Tooltip title="Xem chi tiết">
+              <MDTooltip title="Xem chi tiết">
                 <IconButton
                   onClick={() => {
                     navigate(`/chi-tiet-nhom-quyen/${value}`);
                   }}
                 >
-                  <RemoveRedEyeIcon
-                    fontSize={fontSize}
-                    color={
-                      darkMode
-                        ? "text"
-                        : sidenavColor
-                        ? sidenavColor
-                        : "secondary"
-                    }
-                  />
+                  <MDViewIcon fontSize={fontSize} />
                 </IconButton>
-              </Tooltip>
-              <Tooltip title="Cập nhật">
+              </MDTooltip>
+              <MDTooltip title="Cập nhật">
                 <IconButton
                   onClick={() => {
                     navigate(`/cap-nhat-nhom-quyen/${value}`);
                   }}
                 >
-                  <EditIcon
+                  <MDEditIcon
                     fontSize={fontSize}
-                    color={
-                      darkMode
-                        ? "text"
-                        : sidenavColor
-                        ? sidenavColor
-                        : "secondary"
-                    }
+                    // color={
+                    //   darkMode
+                    //     ? "text"
+                    //     : sidenavColor
+                    //     ? sidenavColor
+                    //     : "secondary"
+                    // }
                   />
                 </IconButton>
-              </Tooltip>
-              <Tooltip title="Xoá">
+              </MDTooltip>
+              <MDTooltip title="Xoá" isError={true}>
                 <IconButton
                   onClick={() => {
                     setId(value);
                     setOpenDelete(true);
                   }}
                 >
-                  <DeleteIcon fontSize={fontSize} color="error" />
+                  <MDDeleteIcon fontSize={fontSize} />
                 </IconButton>
-              </Tooltip>
+              </MDTooltip>
             </MDBox>
           );
         },

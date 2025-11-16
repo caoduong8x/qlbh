@@ -22,6 +22,13 @@ function Login() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const sidenavColor = webStorageClient.getSidenavColor();
+  const darkMode = webStorageClient.getDarkMode();
+
+  const effectiveColor = darkMode
+    ? colors.grey[600]
+    : sidenavColor
+    ? colors.gradients[sidenavColor].main
+    : colors.gradients.info.main;
 
   const [inputs, setInputs] = useState({
     email: "",
@@ -49,6 +56,13 @@ function Login() {
   const handleTogglePassword = () => {
     setShowPassword((prev) => !prev);
   };
+
+  useEffect(() => {
+    if (webStorageClient.getToken() && webStorageClient.getAuth()) {
+      return navigate("/");
+    }
+  }, [navigate]);
+
   const onLogin = async (e) => {
     e.preventDefault();
     if (webStorageClient.getToken() && webStorageClient.getAuth()) {
@@ -149,11 +163,8 @@ function Login() {
                 <InputAdornment position="end">
                   <IconButton
                     onClick={handleTogglePassword}
-                    // color={sidenavColor ? sidenavColor : "#00bbd4"}
-                    style={{
-                      color: sidenavColor
-                        ? colors[sidenavColor].main
-                        : colors.info.main,
+                    sx={{
+                      color: effectiveColor,
                     }}
                   >
                     {showPassword ? <VisibilityOff /> : <Visibility />}

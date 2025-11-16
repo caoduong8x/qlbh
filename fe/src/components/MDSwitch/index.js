@@ -30,10 +30,8 @@ export default function MDSwitch(props) {
   const darkMode = webStorageClient.getDarkMode();
 
   const colorKey = darkMode ? "light" : sidenavColor;
-  console.log("colorKey: ", colorKey);
   const colorHex =
     colors.gradients[colorKey].main || colors.gradients.info.main;
-  console.log("colorHex: ", colorHex);
 
   return <MDSwitchStyled hex={colorHex} {...props} />;
 }

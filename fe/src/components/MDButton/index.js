@@ -7,7 +7,6 @@ import colors from "assets/theme/base/colors";
 import { text } from "../../../node_modules/@fortawesome/fontawesome-svg-core/index";
 
 const MDButton = forwardRef(({ children, color, ...rest }, ref) => {
-  console.log("color: ", color);
   const [controller] = useMaterialUIController();
   const { darkMode, sidenavColor } = controller;
 
@@ -15,13 +14,21 @@ const MDButton = forwardRef(({ children, color, ...rest }, ref) => {
   const effectiveColor =
     color ||
     (darkMode
-      ? colors.gradients.light.main
+      ? colors.grey[600]
       : colors.gradients[sidenavColor].main || colors.gradients.info.main);
 
   return (
     <BaseButton
       ref={ref}
-      style={{ backgroundColor: effectiveColor, color: colors.white.main }}
+      sx={{
+        backgroundColor: `${effectiveColor} !important`,
+        color: `${colors.white.main} !important`,
+        "&:hover": {
+          backgroundColor:
+            (colors.gradients[sidenavColor].state ||
+              colors.gradients.info.state) + " !important",
+        },
+      }}
       {...rest}
     >
       {children}
@@ -32,7 +39,7 @@ const MDButton = forwardRef(({ children, color, ...rest }, ref) => {
 MDButton.defaultProps = {
   color: null,
   variant: "contained",
-  size: "small",
+  size: "medium",
   circular: false,
   iconOnly: false,
 };

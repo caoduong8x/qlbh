@@ -208,7 +208,7 @@ function DashboardNavbar({
             size="small"
             disableRipple
           >
-            <Icon fontSize="medium" style={{ color: effectiveColor }}>
+            <Icon fontSize="medium" sx={{ color: effectiveColor }}>
               {miniSidenav ? "menu_open" : "menu"}
             </Icon>
           </IconButton>
@@ -238,7 +238,7 @@ function DashboardNavbar({
                     });
                   }}
                 >
-                  <Icon style={{ color: effectiveColor }}>publishicon</Icon>
+                  <Icon sx={{ color: effectiveColor }}>publishicon</Icon>
                   {/* <PublishIcon
                     onClick={() => {
                       window.scrollTo({
@@ -272,7 +272,7 @@ function DashboardNavbar({
 
                 <Icon
                   onClick={() => navigate("/profile")}
-                  style={{ color: effectiveColor }}
+                  sx={{ color: effectiveColor }}
                 >
                   account_circle
                 </Icon>
@@ -284,7 +284,7 @@ function DashboardNavbar({
                 sx={navbarMobileMenu}
                 onClick={handleMiniSidenav}
               >
-                <Icon style={{ color: effectiveColor }} fontSize="medium">
+                <Icon sx={{ color: effectiveColor }} fontSize="medium">
                   {miniSidenav ? "menu_open" : "menu"}
                 </Icon>
               </IconButton>
@@ -295,7 +295,7 @@ function DashboardNavbar({
                 sx={navbarIconButton}
                 onClick={handleConfiguratorOpen}
               >
-                <Icon style={{ color: effectiveColor }}>settings</Icon>
+                <Icon sx={{ color: effectiveColor }}>settings</Icon>
               </IconButton>
 
               {/* <IconButton

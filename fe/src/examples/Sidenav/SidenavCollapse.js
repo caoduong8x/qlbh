@@ -38,6 +38,7 @@ import {
 // Material Dashboard 2 PRO React context
 import { useMaterialUIController } from "context";
 import { Tooltip } from "../../../node_modules/@mui/material/index";
+import MDTooltip from "components/MDTooltip/index";
 
 function SidenavCollapse({
   icon,
@@ -53,7 +54,7 @@ function SidenavCollapse({
     controller;
   return (
     <>
-      <Tooltip title={name} placement="right-start">
+      <MDTooltip title={name} placement="right-start">
         <ListItem component="li">
           <MDBox
             {...rest}
@@ -110,7 +111,7 @@ function SidenavCollapse({
             )}
           </MDBox>
         </ListItem>
-      </Tooltip>
+      </MDTooltip>
       {children && (
         <Collapse in={open} unmountOnExit>
           {children}

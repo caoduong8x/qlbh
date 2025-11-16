@@ -35,6 +35,7 @@ import TableRow from "@mui/material/TableRow";
 import Icon from "@mui/material/Icon";
 import Autocomplete from "@mui/material/Autocomplete";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import colors from "assets/theme/base/colors";
 
 // Material Dashboard 2 PRO React components
 import MDBox from "components/MDBox";
@@ -52,7 +53,12 @@ import MDButton from "components/MDButton/index";
 import pxToRem from "assets/theme/functions/pxToRem";
 
 import Pagination from "@mui/material/Pagination";
+import PaginationItem from "@mui/material/PaginationItem";
 import { Grid } from "@mui/material/index";
+import {
+  bo,
+  co,
+} from "../../../../node_modules/@fullcalendar/core/internal-common";
 
 function DataTable({
   entriesPerPage,
@@ -82,6 +88,12 @@ function DataTable({
 
   const [controller] = useMaterialUIController();
   const { darkMode, sidenavColor } = controller;
+
+  const effectiveColor = darkMode
+    ? colors.grey[600]
+    : sidenavColor
+    ? colors.gradients[sidenavColor].main
+    : colors.gradients.info.main;
 
   const tableInstance = useTable(
     { columns, data, initialState: { pageIndex: 0 } },
@@ -241,18 +253,28 @@ function DataTable({
                   <Tooltip title={button?.title}>
                     <MDButton
                       variant="gradient"
-                      color={
-                        button?.title.includes("Hủy")
-                          ? "error"
-                          : button?.title.includes("Dừng")
-                          ? "warning"
-                          : sidenavColor
-                          ? sidenavColor
-                          : "info"
-                      }
                       key={button?.id}
                       onClick={button?.onClick}
-                      sx={{ fontSize: "12px" }}
+                      sx={{
+                        fontSize: "12px",
+                        backgroundColor:
+                          (darkMode
+                            ? colors.grey[600]
+                            : button?.title.includes("Hủy")
+                            ? colors.gradients.error.main
+                            : button?.title.includes("Dừng")
+                            ? colors.gradients.warning.main
+                            : colors.gradients[sidenavColor].main ||
+                              colors.gradients.info.main) + " !important",
+                        color:
+                          (darkMode ? colors.light.main : colors.white.main) +
+                          " !important",
+                        "&:hover": {
+                          backgroundColor:
+                            (colors.gradients[sidenavColor].state ||
+                              colors.gradients.info.state) + " !important",
+                        },
+                      }}
                     >
                       {button?.title.includes("Hủy") ? (
                         <Icon color="white">delete</Icon>
@@ -278,20 +300,28 @@ function DataTable({
               : (buttons || buttonList)?.map((button) => (
                   <MDButton
                     variant="gradient"
-                    color={
-                      darkMode
-                        ? "dark"
-                        : button?.title === "Hủy chia sẻ"
-                        ? "error"
-                        : button?.title === "Dừng chia sẻ"
-                        ? "warning"
-                        : sidenavColor
-                        ? sidenavColor
-                        : "info"
-                    }
                     key={button?.id}
                     onClick={button?.onClick}
-                    sx={{ fontSize: "12px" }}
+                    sx={{
+                      fontSize: "12px",
+                      backgroundColor:
+                        (darkMode
+                          ? colors.grey[600]
+                          : button?.title.includes("Hủy")
+                          ? colors.gradients.error.main
+                          : button?.title.includes("Dừng")
+                          ? colors.gradients.warning.main
+                          : colors.gradients[sidenavColor].main ||
+                            colors.gradients.info.main) + " !important",
+                      color:
+                        (darkMode ? colors.light.main : colors.white.main) +
+                        " !important",
+                      "&:hover": {
+                        backgroundColor:
+                          (colors.gradients[sidenavColor].state ||
+                            colors.gradients.info.state) + " !important",
+                      },
+                    }}
                   >
                     {button?.title === "Hủy chia sẻ" ? (
                       <>
@@ -457,7 +487,24 @@ function DataTable({
               onPageChange(value);
               gotoPage(value - 1);
             }}
-            color={pagination.color ? pagination.color : "info"}
+            // color={pagination.color ? pagination.color : "info"}
+            renderItem={(item) => (
+              <PaginationItem
+                {...item}
+                sx={{
+                  color: effectiveColor,
+                  borderColor: effectiveColor,
+                  "&.Mui-selected": {
+                    backgroundColor: effectiveColor + " !important",
+                    color: colors.white.main,
+                  },
+                  "&:hover": {
+                    backgroundColor: effectiveColor,
+                    color: colors.white.main,
+                  },
+                }}
+              />
+            )}
             variant={"outlined"}
           />
         )}
