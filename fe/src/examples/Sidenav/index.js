@@ -55,6 +55,11 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     darkMode,
     sidenavColor,
   } = controller;
+  console.log("sidenavColor: ", sidenavColor);
+  console.log(
+    "colors.arrayColor[sidenavColor][800]",
+    colors.arrayColor[sidenavColor][800]
+  );
   const location = useLocation();
   const navigate = useNavigate();
   const { pathname } = location;
@@ -148,11 +153,14 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
               style={{
                 transition: "background-color 0.3s ease",
                 backgroundColor:
-                  route?.key === activeRoute ? colors.grey[700] : "transparent", // Đổi màu nếu là active
+                  route?.key === activeRoute
+                    ? colors.arrayColor[sidenavColor][400]
+                    : "transparent", // Đổi màu nếu là active
               }}
               onMouseEnter={(e) => {
                 if (route?.key !== activeRoute) {
-                  e.currentTarget.style.backgroundColor = colors.grey[700];
+                  e.currentTarget.style.backgroundColor =
+                    colors.arrayColor[sidenavColor][400];
                 }
               }}
               onMouseLeave={(e) => {
@@ -181,11 +189,14 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
               style={{
                 transition: "background-color 0.3s ease",
                 backgroundColor:
-                  route?.key === activeRoute ? colors.grey[600] : "transparent", // Đổi màu nếu là active
+                  route?.key === activeRoute
+                    ? colors.arrayColor[sidenavColor][400]
+                    : "transparent", // Đổi màu nếu là active
               }}
               onMouseEnter={(e) => {
                 if (route?.key !== activeRoute) {
-                  e.currentTarget.style.backgroundColor = colors.grey[700];
+                  e.currentTarget.style.backgroundColor =
+                    colors.arrayColor[sidenavColor][400];
                 }
               }}
               onMouseLeave={(e) => {

@@ -37,7 +37,6 @@ export default styled(TextField)(({ theme, ownerState }) => {
   const colorKey = darkMode ? "light" : sidenavColor;
   const colorHex =
     colors.gradients[colorKey].main || colors.gradients.info.main;
-  console.log("colorHex: ", colorHex);
 
   // focus styles (normal state - not error/success)
   const focusStyles = {
