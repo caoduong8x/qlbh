@@ -1,29 +1,27 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 import { useNavigate } from "react-router-dom";
 import ExcelJS from "exceljs";
+import { debounce, get } from "lodash";
 import Card from "@mui/material/Card";
 import { IconButton } from "@mui/material";
-import MDTooltip from "components/MDTooltip/index";
 
+import DataTable from "examples/Tables/DataTable/index";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout/index";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar/index";
 import MDTypography from "components/MDTypography/index";
 import MDEditIcon from "components/MDEditIcon/index";
 import MDViewIcon from "components/MDViewIcon/index";
 import MDDeleteIcon from "components/MDDeleteIcon/index";
-
+import MDTooltip from "components/MDTooltip/index";
 import MDBox from "components/MDBox/index";
 import Loading from "components/Loading";
 
 import { useMaterialUIController } from "context";
-
-import DataTable from "examples/Tables/DataTable/index";
-import { API_SERVER } from "services/constants";
 import { endpointKhachHang } from "services/endpoint";
 import * as Services from "services/request/index";
 import { XoaNhomQuyen } from "./XoaNhomQuyen";
-import { debounce, get } from "lodash";
+
 const QuanLyKhachHang = () => {
   const navigate = useNavigate();
   const [controller] = useMaterialUIController();
@@ -59,8 +57,7 @@ const QuanLyKhachHang = () => {
   }, [filter, openDelete]);
 
   const getKhachHang = () => {
-    const url = `${API_SERVER}${endpointKhachHang}`;
-    Services.getRequest(url, filter)
+    Services.getRequest(endpointKhachHang, filter)
       ?.then((res) => {
         setListApprove(res?.data || []);
         setTotalPage(res?.totalPages || 0);
@@ -71,12 +68,14 @@ const QuanLyKhachHang = () => {
   };
 
   const getListExportExcel = async () => {
-    const url = `${API_SERVER}${endpointKhachHang}`;
     try {
       const result = [];
       const data =
-        (await Services.getRequest(url, { params: { getAll: true } }))?.data ||
-        [];
+        (
+          await Services.getRequest(endpointKhachHang, {
+            params: { getAll: true },
+          })
+        )?.data || [];
       console.log("data: ", data);
       data.forEach((dt) => {
         let itemResult = {
@@ -148,15 +147,24 @@ const QuanLyKhachHang = () => {
     document.body.removeChild(a);
   };
 
-  const onChangeSearch = debounce((value) => {
-    setFilter({
-      params: {
-        page: 1,
-        pagesize: pageSize,
-        search: value,
-      },
-    });
-  }, 600);
+  const onChangeSearch = useCallback(
+    debounce((value) => {
+      setFilter({
+        params: {
+          page: 1,
+          pagesize: pageSize,
+          search: value,
+        },
+      });
+    }, 600),
+    []
+  );
+
+  useEffect(() => {
+    return () => {
+      onChangeSearch.cancel();
+    };
+  }, [onChangeSearch]);
 
   const data = {
     columns: [
@@ -307,16 +315,7 @@ const QuanLyKhachHang = () => {
                     navigate(`/cap-nhat-nhom-quyen/${value}`);
                   }}
                 >
-                  <MDEditIcon
-                    fontSize={fontSize}
-                    // color={
-                    //   darkMode
-                    //     ? "text"
-                    //     : sidenavColor
-                    //     ? sidenavColor
-                    //     : "secondary"
-                    // }
-                  />
+                  <MDEditIcon fontSize={fontSize} />
                 </IconButton>
               </MDTooltip>
               <MDTooltip title="Xoá" isError={true}>

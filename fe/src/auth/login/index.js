@@ -7,7 +7,10 @@ import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
 import MDSnackbar from "components/MDSnackbar";
-import { IconButton, InputAdornment } from "@mui/material";
+import { IconButton, InputAdornment, InputLabel } from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
+import MDCheckbox from "components/MDCheckbox";
+import MDInputLabel from "components/MDInputLabel";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 import AuthService from "services/auth-service";
@@ -20,9 +23,13 @@ import colors from "assets/theme/base/colors";
 
 function Login() {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
   const sidenavColor = webStorageClient.getSidenavColor();
   const darkMode = webStorageClient.getDarkMode();
+  const [showPassword, setShowPassword] = useState(false);
+  const [checking, setChecking] = useState(false);
+  const [rememberMe, setRememberMe] = useState(
+    webStorageClient.getRememberMe()
+  );
 
   const effectiveColor = darkMode
     ? colors.grey[600]
@@ -58,16 +65,30 @@ function Login() {
   };
 
   useEffect(() => {
-    if (webStorageClient.getToken() && webStorageClient.getAuth()) {
-      return navigate("/");
+    const checkLogin = async () => {
+      const verifyLoginResult = await verifyLogin();
+      if (verifyLoginResult) {
+        webStorageClient.setAuth(true);
+        navigate("/khach-hang");
+      }
+    };
+    checkLogin();
+    setChecking(true);
+  }, []);
+
+  const verifyLogin = async () => {
+    try {
+      const token = webStorageClient.getToken();
+      if (!token) return false;
+      const res = await AuthService.verifyLogin();
+      return res?.valid === true;
+    } catch (e) {
+      return false;
     }
-  }, [navigate]);
+  };
 
   const onLogin = async (e) => {
     e.preventDefault();
-    if (webStorageClient.getToken() && webStorageClient.getAuth()) {
-      return navigate("/");
-    }
 
     const newErrors = {
       emailError: inputs.email.trim().length === 0,
@@ -88,7 +109,7 @@ function Login() {
       if (res?.access_token) {
         webStorageClient.setToken(res?.access_token);
         webStorageClient.setAuth(true);
-        navigate("/");
+        navigate("/khach-hang");
       } else {
         setSnackbar({
           open: true,
@@ -113,7 +134,7 @@ function Login() {
   const handleCloseSnackbar = () =>
     setSnackbar((prev) => ({ ...prev, open: false }));
 
-  return (
+  return checking ? (
     <IllustrationLayout illustration={bgImage}>
       <MDBox textAlign="center" mb={3}>
         <MDTypography variant="h5" fontWeight="medium">
@@ -180,7 +201,26 @@ function Login() {
           )}
         </MDBox>
 
-        <MDBox mt={4} mb={1}>
+        <MDBox display="flex" alignItems="center" ml={-1}>
+          <MDCheckbox
+            name="remember"
+            id="remember"
+            checked={rememberMe}
+            onChange={() => {
+              setRememberMe(!rememberMe);
+              webStorageClient.setRememberMe(!rememberMe);
+            }}
+          />
+          <MDInputLabel
+            variant="standard"
+            fontWeight="regular"
+            sx={{ lineHeight: "1.5", cursor: "pointer", pt: 0.5 }}
+            htmlFor="remember"
+            textContent="Ghi nhớ đăng nhập"
+          />
+        </MDBox>
+
+        <MDBox mt={2} mb={1}>
           <MDButton variant="gradient" fullWidth type="submit">
             Đăng nhập
           </MDButton>
@@ -198,7 +238,7 @@ function Login() {
         bgWhite
       />
     </IllustrationLayout>
-  );
+  ) : null;
 }
 
 export default Login;

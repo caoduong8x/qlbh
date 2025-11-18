@@ -34,7 +34,7 @@ export default styled(TextField)(({ theme, ownerState }) => {
   // 🚀 Tính màu dynamic
   const sidenavColor = webStorageClient.getSidenavColor();
   const darkMode = webStorageClient.getDarkMode();
-  const colorKey = darkMode ? "light" : sidenavColor;
+  const colorKey = darkMode ? "light" : sidenavColor || "info";
   const colorHex =
     colors.gradients[colorKey].main || colors.gradients.info.main;
 

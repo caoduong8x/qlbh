@@ -22,10 +22,6 @@ import SidenavItem from "examples/Sidenav/SidenavItem";
 // Custom styles for the Sidenav
 import SidenavRoot from "examples/Sidenav/SidenavRoot";
 import sidenavLogoLabel from "examples/Sidenav/styles/sidenav";
-import { getRequest } from "services/request/index";
-import { API_SERVER } from "services/constants";
-import webStorageClient from "config/webStorageClient";
-import { endpointAuth } from "services/endpoint";
 
 // Material Dashboard 2 PRO React context
 import {
@@ -55,11 +51,7 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     darkMode,
     sidenavColor,
   } = controller;
-  console.log("sidenavColor: ", sidenavColor);
-  console.log(
-    "colors.arrayColor[sidenavColor][800]",
-    colors.arrayColor[sidenavColor][800]
-  );
+  const sidenavColorValue = colors.arrayColor[sidenavColor][500];
   const location = useLocation();
   const navigate = useNavigate();
   const { pathname } = location;
@@ -113,15 +105,6 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const handleLogOut = async () => {
     try {
       authContext.logout();
-      // await AuthService.logout();
-      // console.log('"logout"', "logout");
-      // const idtoken = webStorageClient.getIDToken();
-      // const urlDetail = `${API_SERVER}${
-      //   endpointAuth?.SIGNOUT
-      // }?idtoken=${idtoken}&email=${webStorageClient.getUser()}`;
-      // let res = await getRequest(urlDetail);
-      // // navigate(res?.logoutUrl);
-      // window.location.href = res?.logoutUrl;
     } catch (err) {
       console.error(err);
       return null;
@@ -154,13 +137,14 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
                 transition: "background-color 0.3s ease",
                 backgroundColor:
                   route?.key === activeRoute
-                    ? colors.arrayColor[sidenavColor][400]
+                    ? sidenavColorValue
                     : "transparent", // Đổi màu nếu là active
+                borderColor:
+                  route?.key === activeRoute ? colors.white.main : "none",
               }}
               onMouseEnter={(e) => {
                 if (route?.key !== activeRoute) {
-                  e.currentTarget.style.backgroundColor =
-                    colors.arrayColor[sidenavColor][400];
+                  e.currentTarget.style.backgroundColor = sidenavColorValue;
                 }
               }}
               onMouseLeave={(e) => {
@@ -190,13 +174,12 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
                 transition: "background-color 0.3s ease",
                 backgroundColor:
                   route?.key === activeRoute
-                    ? colors.arrayColor[sidenavColor][400]
+                    ? sidenavColorValue
                     : "transparent", // Đổi màu nếu là active
               }}
               onMouseEnter={(e) => {
                 if (route?.key !== activeRoute) {
-                  e.currentTarget.style.backgroundColor =
-                    colors.arrayColor[sidenavColor][400];
+                  e.currentTarget.style.backgroundColor = sidenavColorValue;
                 }
               }}
               onMouseLeave={(e) => {

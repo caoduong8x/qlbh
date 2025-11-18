@@ -11,7 +11,6 @@ import {
 import Icon from "@mui/material/Icon";
 
 import { setupAxiosInterceptors } from "services/interceptor";
-import LogoutIcon from "@mui/icons-material/Logout";
 
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
@@ -39,11 +38,7 @@ import Sidenav from "examples/Sidenav";
 import MDBox from "components/MDBox";
 import Configurator from "examples/Configurator";
 import NotFound from "pages/NotFound/NotFound";
-import { bool } from "prop-types";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
-
+import is from "date-fns/locale/is/index.js";
 export default function App({ ability }) {
   const { getRole, getIsAdmin } = useContext(AuthContext);
   const [controller, dispatch] = useMaterialUIController();
@@ -168,7 +163,7 @@ export default function App({ ability }) {
           <Route
             exact
             path={route?.route}
-            element={route?.component}
+            element={isAuth ? route?.component : <Navigate to="/login" />}
             key={route?.key}
           />
         ))}
@@ -202,7 +197,7 @@ export default function App({ ability }) {
         </>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Navigate to="/khach-hang" />} />
+          <Route path="/" element={<Navigate to="/login" />} />
           {getRoutes(routes)}
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>

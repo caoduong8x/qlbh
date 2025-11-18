@@ -11,6 +11,7 @@ import {
   TEN_NHOM_QUYEN,
   SIDENAV_COLOR,
   DARK_MODE,
+  REMEMBER_ME,
 } from "services/constants";
 
 const webStorageClient = {
@@ -36,10 +37,17 @@ const webStorageClient = {
     Object.keys(Cookies.get()).forEach((cookieName) => {
       Cookies.remove(cookieName);
     });
+    localStorage.removeItem(ACCESS_TOKEN);
+    localStorage.removeItem(IS_AUTH);
   },
 
   setToken(value, option) {
-    this.set(ACCESS_TOKEN, value, option);
+    const remember = this.getRememberMe();
+    if (remember) {
+      localStorage.setItem(ACCESS_TOKEN, JSON.stringify(value));
+    } else {
+      this.set(ACCESS_TOKEN, value, option);
+    }
   },
 
   setIDToken(value, option) {
@@ -76,13 +84,32 @@ const webStorageClient = {
     localStorage.setItem(DARK_MODE, JSON.stringify(value));
   },
 
+  setRememberMe(value, option) {
+    localStorage.setItem(REMEMBER_ME, JSON.stringify(value));
+  },
+
   getAuth() {
     return this.get(IS_AUTH);
   },
 
   getToken() {
-    return this.get(ACCESS_TOKEN);
+    const remember = this.getRememberMe();
+    if (remember) {
+      const token = localStorage.getItem(ACCESS_TOKEN);
+      return JSON.parse(token);
+    } else {
+      return this.get(ACCESS_TOKEN);
+    }
   },
+
+  // getToken() {
+  //   // ưu tiên localStorage (rememberMe=true)
+  //   const tokenLocal = localStorage.getItem(ACCESS_TOKEN);
+  //   if (tokenLocal) return JSON.parse(tokenLocal);
+
+  //   // fallback Cookies
+  //   return this.get(ACCESS_TOKEN);
+  // },
 
   getIDToken() {
     return this.get(ID_TOKEN);
@@ -112,6 +139,10 @@ const webStorageClient = {
 
   getDarkMode() {
     return JSON.parse(localStorage.getItem(DARK_MODE));
+  },
+
+  getRememberMe() {
+    return JSON.parse(localStorage.getItem(REMEMBER_ME));
   },
 };
 

@@ -2,6 +2,7 @@ import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import prisma from "../prismaClient.js";
+import verifyToken from "../middleware/auth.js";
 
 const router = express.Router();
 
@@ -40,6 +41,26 @@ router.post("/login", async (req, res) => {
       { expiresIn: "8h" }
     );
     res.json({ access_token });
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+router.get("/verify", verifyToken, async (req, res) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.userId },
+      select: { id: true, email: true, role: true },
+    });
+
+    if (!user) {
+      return res.status(401).json({ error: "User not found" });
+    }
+
+    res.json({
+      valid: true,
+      user,
+    });
   } catch (err) {
     res.status(500).json({ error: "Server error" });
   }

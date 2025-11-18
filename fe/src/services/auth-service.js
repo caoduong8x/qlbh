@@ -8,6 +8,12 @@ class AuthService {
     return res;
   };
 
+  verifyLogin = async () => {
+    const verifyLoginEndpoint = "/auth/verify";
+    const res = await HttpService.get(verifyLoginEndpoint);
+    return res;
+  };
+
   register = async (credentials) => {
     const registerEndpoint = "register";
     return await HttpService.post(registerEndpoint, credentials);

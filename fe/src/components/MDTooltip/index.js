@@ -16,6 +16,7 @@ const MDTooltipStyled = styled(
     backgroundColor: `${isError ? colors.error.main : colorHex} !important`,
     color: "white",
     fontSize: 15,
+    marginTop: 13,
   },
 }));
 

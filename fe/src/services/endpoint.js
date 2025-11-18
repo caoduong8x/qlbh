@@ -1,16 +1,16 @@
-const prefixAuth = "";
+import { API_SERVER } from "services/constants";
 
 const endpointAuth = {
-  LOGIN: `${prefixAuth}/auth/login`,
-  SIGNOUT: `${prefixAuth}/auth/signout`,
-  ME: `${prefixAuth}/me`,
-  UPDATE_USER: `${prefixAuth}/user/me`,
-  GET_USER_LIST: `${prefixAuth}/users/getAllUser`,
-  CHANGE_PASS: `${prefixAuth}/users/changePassword`,
-  CHANGE_INFO: `${prefixAuth}/users/changeUserInfo`,
+  LOGIN: `${API_SERVER}/auth/login`,
+  SIGNOUT: `${API_SERVER}/auth/signout`,
+  ME: `${API_SERVER}/me`,
+  UPDATE_USER: `${API_SERVER}/user/me`,
+  GET_USER_LIST: `${API_SERVER}/users/getAllUser`,
+  CHANGE_PASS: `${API_SERVER}/users/changePassword`,
+  CHANGE_INFO: `${API_SERVER}/users/changeUserInfo`,
 };
 
-const endpointKhachHang = "/customers";
+const endpointKhachHang = `${API_SERVER}/customers`;
 
 const endpointNhomQuyen = {
   UpdateNhomQuyen: "/data/rh/nhom-quyen/cap-nhat",
