@@ -66,7 +66,7 @@ export default function App({ ability }) {
   const navigate = useNavigate();
   setupAxiosInterceptors(() => {
     authContext.logout();
-    navigate("/login");
+    // navigate("/login");
   });
 
   // Setting page scroll to 0 when changing the route
@@ -163,7 +163,7 @@ export default function App({ ability }) {
           <Route
             exact
             path={route?.route}
-            element={isAuth ? route?.component : <Navigate to="/login" />}
+            element={route?.component}
             key={route?.key}
           />
         ))}

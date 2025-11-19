@@ -59,6 +59,7 @@ const QuanLyKhachHang = () => {
   const getKhachHang = () => {
     Services.getRequest(endpointKhachHang, filter)
       ?.then((res) => {
+        console.log("res?.data", res?.data);
         setListApprove(res?.data || []);
         setTotalPage(res?.totalPages || 0);
       })
@@ -76,7 +77,6 @@ const QuanLyKhachHang = () => {
             params: { getAll: true },
           })
         )?.data || [];
-      console.log("data: ", data);
       data.forEach((dt) => {
         let itemResult = {
           name: dt.name || "",
