@@ -2,39 +2,49 @@ import { forwardRef } from "react";
 import PropTypes from "prop-types";
 import BaseButton from "components/MDButton//BaseButton";
 import { useMaterialUIController } from "context";
-import webStorageClient from "config/webStorageClient";
 import colors from "assets/theme/base/colors";
-import { text } from "../../../node_modules/@fortawesome/fontawesome-svg-core/index";
 
-const MDButton = forwardRef(({ children, color, ...rest }, ref) => {
-  const [controller] = useMaterialUIController();
-  const { darkMode, sidenavColor } = controller;
+const MDButton = forwardRef(
+  ({ children, color, isDeleteButton = false, ...rest }, ref) => {
+    const [controller] = useMaterialUIController();
+    const { darkMode, sidenavColor } = controller;
 
-  // Ưu tiên: color prop > darkMode > sidenavColor > secondary
-  const effectiveColor =
-    color ||
-    (darkMode
-      ? colors.grey[600]
-      : colors.gradients[sidenavColor].main || colors.gradients.info.main);
+    // Ưu tiên: color prop > darkMode > sidenavColor > secondary
+    const effectiveColor =
+      color ||
+      (darkMode
+        ? colors.grey[600]
+        : colors.gradients[sidenavColor].main || colors.gradients.info.main);
 
-  return (
-    <BaseButton
-      ref={ref}
-      sx={{
-        backgroundColor: `${effectiveColor} !important`,
-        color: `${colors.white.main} !important`,
-        "&:hover": {
-          backgroundColor:
-            (colors.gradients[sidenavColor].state ||
-              colors.gradients.info.state) + " !important",
-        },
-      }}
-      {...rest}
-    >
-      {children}
-    </BaseButton>
-  );
-});
+    return (
+      <BaseButton
+        ref={ref}
+        sx={
+          isDeleteButton
+            ? {
+                backgroundColor: `${colors.gradients.error.main} !important`,
+                color: `${colors.white.main} !important`,
+                "&:hover": {
+                  backgroundColor: colors.gradients.error.state + " !important",
+                },
+              }
+            : {
+                backgroundColor: `${effectiveColor} !important`,
+                color: `${colors.white.main} !important`,
+                "&:hover": {
+                  backgroundColor:
+                    (colors.gradients[sidenavColor].state ||
+                      colors.gradients.info.state) + " !important",
+                },
+              }
+        }
+        {...rest}
+      >
+        {children}
+      </BaseButton>
+    );
+  }
+);
 
 MDButton.defaultProps = {
   color: null,

@@ -35,22 +35,41 @@ import { useMaterialUIController } from "context";
 import colors from "assets/theme/base/colors";
 
 function MDSnackbar({
+  color,
   icon,
   title,
   dateTime,
   content,
-  isError,
   close,
+  bgWhite,
   ...rest
 }) {
   const [controller] = useMaterialUIController();
   const { darkMode, sidenavColor } = controller;
 
-  const effectiveColor = isError
-    ? colors.error.main
-    : darkMode
-    ? colors.grey[600]
-    : colors.gradients[sidenavColor].main || colors.gradients.info.main;
+  const effectiveColor =
+    color ||
+    (darkMode
+      ? colors.grey[600]
+      : colors.gradients[sidenavColor].main || colors.gradients.info.main);
+
+  let titleColor;
+  let dateTimeColor;
+  let dividerColor;
+
+  if (bgWhite) {
+    titleColor = color;
+    dateTimeColor = "dark";
+    dividerColor = false;
+  } else if (color === "light") {
+    titleColor = darkMode ? "inherit" : "dark";
+    dateTimeColor = darkMode ? "inherit" : "text";
+    dividerColor = false;
+  } else {
+    titleColor = "white";
+    dateTimeColor = "white";
+    dividerColor = true;
+  }
 
   return (
     <Snackbar
@@ -73,43 +92,58 @@ function MDSnackbar({
       }
     >
       <MDBox
-        variant="contained"
-        bgColor={effectiveColor}
+        variant={bgWhite ? "contained" : "gradient"}
+        bgColor={bgWhite ? "white" : color}
         minWidth="21.875rem"
         maxWidth="100%"
         shadow="md"
         borderRadius="md"
         p={1}
+        sx={{
+          backgroundColor: ({ palette }) =>
+            darkMode
+              ? palette.background.card
+              : palette[color] || palette.white.main,
+        }}
       >
         <MDBox
           display="flex"
           justifyContent="space-between"
           alignItems="center"
-          color={colors.white.main}
+          color="dark"
           p={1.5}
         >
           <MDBox display="flex" alignItems="center" lineHeight={0}>
             <MDSnackbarIconRoot
               fontSize="small"
-              ownerState={{ bgWhite: false, color: effectiveColor }}
-              sx={{ color: colors.white.main }}
+              ownerState={{ color, bgWhite }}
             >
               {icon}
             </MDSnackbarIconRoot>
-            <MDTypography variant="button" fontWeight="medium" color="white">
+            <MDTypography
+              variant="button"
+              fontWeight="medium"
+              color={titleColor}
+              textGradient={bgWhite}
+            >
               {title}
             </MDTypography>
           </MDBox>
           <MDBox display="flex" alignItems="center" lineHeight={0}>
-            <MDTypography variant="caption" color="white">
+            <MDTypography variant="caption" color={dateTimeColor}>
               {dateTime}
             </MDTypography>
             <Icon
               sx={{
-                color: colors.white.main,
-                fontWeight: 700,
+                color: ({ palette: { dark, white } }) =>
+                  (bgWhite && !darkMode) || color === "light"
+                    ? dark.main
+                    : white.main,
+                fontWeight: ({ typography: { fontWeightBold } }) =>
+                  fontWeightBold,
                 cursor: "pointer",
                 marginLeft: 2,
+                transform: "translateY(-1px)",
               }}
               onClick={close}
             >
@@ -117,15 +151,21 @@ function MDSnackbar({
             </Icon>
           </MDBox>
         </MDBox>
-        <Divider
-          sx={{ margin: 0, backgroundColor: colors.white.main }}
-          light={true}
-        />
+        <Divider sx={{ margin: 0 }} light={dividerColor} />
         <MDBox
           p={1.5}
           sx={{
             fontSize: ({ typography: { size } }) => size.sm,
-            color: colors.white.main,
+            color: ({ palette: { white, text } }) => {
+              let colorValue =
+                bgWhite || color === "light" ? text.main : white.main;
+
+              if (darkMode) {
+                colorValue = color === "light" ? "inherit" : white.main;
+              }
+
+              return colorValue;
+            },
           }}
         >
           {content}

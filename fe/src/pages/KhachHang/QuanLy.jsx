@@ -20,7 +20,7 @@ import Loading from "components/Loading";
 import { useMaterialUIController } from "context";
 import { endpointKhachHang } from "services/endpoint";
 import * as Services from "services/request/index";
-import { XoaNhomQuyen } from "./XoaNhomQuyen";
+import { Xoa } from "./Xoa";
 
 const QuanLyKhachHang = () => {
   const navigate = useNavigate();
@@ -59,7 +59,6 @@ const QuanLyKhachHang = () => {
   const getKhachHang = () => {
     Services.getRequest(endpointKhachHang, filter)
       ?.then((res) => {
-        console.log("res?.data", res?.data);
         setListApprove(res?.data || []);
         setTotalPage(res?.totalPages || 0);
       })
@@ -175,7 +174,7 @@ const QuanLyKhachHang = () => {
             STT
           </MDTypography>
         ),
-        accessor: "id",
+        accessor: "stt",
         Cell: ({ row }) => {
           return (
             <MDTypography
@@ -296,7 +295,7 @@ const QuanLyKhachHang = () => {
             Hành động
           </MDTypography>
         ),
-        accessor: "_id.$oid",
+        accessor: "id",
         Cell: ({ cell: { value } }) => {
           return (
             <MDBox display="flex" alignItems="center">
@@ -321,6 +320,7 @@ const QuanLyKhachHang = () => {
               <MDTooltip title="Xoá" isError={true}>
                 <IconButton
                   onClick={() => {
+                    console.log("value: ", value);
                     setId(value);
                     setOpenDelete(true);
                   }}
@@ -355,12 +355,13 @@ const QuanLyKhachHang = () => {
 
   return (
     <DashboardLayout>
-      <XoaNhomQuyen
+      <Xoa
         open={openDelete}
         setOpen={setOpenDelete}
         id={id}
         reload={reload}
         setReload={setReload}
+        title="Khách hàng"
       />
       <DashboardNavbar breadcrumbTitle="Danh sách khách hàng" />
       <Card sx={{ width: "100%", marginTop: "0.5rem" }}>

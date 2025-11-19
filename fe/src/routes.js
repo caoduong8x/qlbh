@@ -29,7 +29,7 @@ import CapNhatPhanQuyen from "pages/QuanLyPhanQuyen/CapNhatPhanQuyen";
 import NhatKyHeThong from "pages/NhatKyHeThong/NhatKyHeThong";
 import ChiTietNhatKy from "pages/NhatKyHeThong/ChiTietNhatKy";
 import Profile from "pages/Profile/Profile";
-import KhachHang from "pages/KhachHang/QuanLyKhachHang";
+import KhachHang from "pages/KhachHang/QuanLy";
 
 const routes = [
   {

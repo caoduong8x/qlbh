@@ -16,7 +16,6 @@ import { messagesAlert } from "config/messages/messages";
 
 import { AuthContext } from "context/index";
 
-
 function DashboardLayout({ children }) {
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav } = controller;
@@ -42,15 +41,16 @@ function DashboardLayout({ children }) {
         },
       })}
     >
-       {authContext?.open && (
+      {authContext?.open && (
         <MDSnackbar
           icon={authContext.alert.icon}
           title={authContext.alert.title}
           content={authContext.alert.content}
+          isError={authContext.alert.isError || false}
           open={authContext.open}
-          onClose={() =>{authContext?.openAlert()} }
-          close={() => {authContext?.openAlert()}}
-          color={authContext.alert.color}
+          close={() => {
+            authContext?.openAlert();
+          }}
         />
       )}
       {children}

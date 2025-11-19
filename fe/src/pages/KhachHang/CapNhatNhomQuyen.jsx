@@ -17,7 +17,7 @@ import colors from "assets/theme/base/colors";
 import { endpointNhomQuyen } from "services/endpoint";
 import DataTable from "examples/Tables/DataTable/index";
 import { Icon, TextField } from "../../../node_modules/@mui/material/index";
-import { XoaNhomQuyen } from "./XoaNhomQuyen";
+import { XoaNhomQuyen } from "./Xoa";
 
 const CapNhatNhomQuyen = () => {
   const params = useParams();

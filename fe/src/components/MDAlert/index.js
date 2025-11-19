@@ -30,7 +30,7 @@ import MDAlertCloseIcon from "components/MDAlert/MDAlertCloseIcon";
 
 function MDAlert({ color, dismissible, children, ...rest }) {
   const [alertStatus, setAlertStatus] = useState("mount");
-
+  console.log("Cái db");
   const handleAlertStatus = () => setAlertStatus("fadeOut");
 
   // The base template for the alert
@@ -41,7 +41,9 @@ function MDAlert({ color, dismissible, children, ...rest }) {
           {children}
         </MDBox>
         {dismissible ? (
-          <MDAlertCloseIcon onClick={mount ? handleAlertStatus : null}>&times;</MDAlertCloseIcon>
+          <MDAlertCloseIcon onClick={mount ? handleAlertStatus : null}>
+            &times;
+          </MDAlertCloseIcon>
         ) : null}
       </MDAlertRoot>
     </Fade>

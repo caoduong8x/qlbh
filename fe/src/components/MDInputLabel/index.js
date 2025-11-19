@@ -11,7 +11,6 @@ export default function MDInputLabel({ textContent, sx, ...props }) {
   const colorHex =
     colors.gradients[colorKey].main || colors.gradients.info.main;
 
-  console.log("colorHex: ", colorHex);
   return (
     <InputLabel
       sx={{

@@ -85,10 +85,26 @@ export const updateCustomer = async (req, res) => {
 // ❌ Xóa khách hàng
 export const deleteCustomer = async (req, res) => {
   try {
-    const id = parseInt(req.params.id);
+    const id = parseInt(req.params.idd);
     await prisma.customer.delete({ where: { id } });
     res.json({ message: "Đã xóa khách hàng" });
   } catch (err) {
+    console.log("err: ", err.message);
     res.status(400).json({ error: err.message });
   }
 };
+
+// export const deleteCustomer = async (req, res) => {
+//   try {
+//     // Giả lập lỗi Prisma
+//     const err = new Error("Record to delete does not exist.");
+//     err.code = "P2025"; // Prisma error code cho "Record not found"
+//     err.meta = { cause: "Customer with this ID does not exist." };
+//     throw err;
+//   } catch (err) {
+//     console.log("err:", err);
+//     res
+//       .status(400)
+//       .json({ error: err.message, code: err.code, meta: err.meta });
+//   }
+// };
