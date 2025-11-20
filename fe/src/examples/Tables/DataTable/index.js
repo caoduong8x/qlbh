@@ -43,6 +43,8 @@ import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDPagination from "components/MDPagination";
 import { Tooltip, IconButton } from "@mui/material";
+import MDTooltip from "components/MDTooltip/index";
+
 import webStorageClient from "config/webStorageClient";
 import { useMaterialUIController } from "context";
 
@@ -250,11 +252,21 @@ function DataTable({
           >
             {(buttons || buttonList)?.length > 2
               ? (buttons || buttonList)?.map((button) => (
-                  <Tooltip title={button?.title}>
+                  <MDTooltip
+                    title={button?.title}
+                    isError={
+                      button?.title.includes("Hủy") ||
+                      button?.title.includes("Xóa")
+                    }
+                  >
                     <MDButton
                       variant="gradient"
                       key={button?.id}
                       onClick={button?.onClick}
+                      isDeleteButton={
+                        button?.title.includes("Hủy") ||
+                        button?.title.includes("Xóa")
+                      }
                       sx={{
                         fontSize: "12px",
                         backgroundColor:
@@ -279,6 +291,9 @@ function DataTable({
                       {button?.title.includes("Hủy") ? (
                         <Icon color="white">delete</Icon>
                       ) : null}
+                      {button?.title.includes("Xóa") ? (
+                        <Icon color="white">delete</Icon>
+                      ) : null}
                       {button?.title.includes("Dừng") ? (
                         <Icon color="white">stop</Icon>
                       ) : null}
@@ -295,7 +310,7 @@ function DataTable({
                         <Icon color="white">upload</Icon>
                       ) : null}
                     </MDButton>
-                  </Tooltip>
+                  </MDTooltip>
                 ))
               : (buttons || buttonList)?.map((button) => (
                   <MDButton

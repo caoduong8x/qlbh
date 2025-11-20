@@ -1,16 +1,16 @@
-import { styled } from "@mui/material/styles";
 import Checkbox from "@mui/material/Checkbox";
 import webStorageClient from "config/webStorageClient";
 import colors from "assets/theme/base/colors";
 
 // Wrapper component cập nhật hex mỗi lần render
-export default function MDCheckbox(props) {
+export default function MDCheckbox({ isDeleteCheckbox = false, ...props }) {
   const sidenavColor = webStorageClient.getSidenavColor();
   const darkMode = webStorageClient.getDarkMode();
 
   const colorKey = darkMode ? "light" : sidenavColor;
-  const colorHex =
-    colors.gradients[colorKey].main || colors.gradients.info.main;
+  const colorHex = isDeleteCheckbox
+    ? colors.error.main
+    : colors.gradients[colorKey].main || colors.gradients.info.main;
 
   const UncheckedIcon = ({ color }) => (
     <svg width="24" height="24" viewBox="0 0 24 24">

@@ -5,6 +5,8 @@ import ExcelJS from "exceljs";
 import { debounce, get } from "lodash";
 import Card from "@mui/material/Card";
 import { IconButton } from "@mui/material";
+import InputLabel from "@mui/material/InputLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 import DataTable from "examples/Tables/DataTable/index";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout/index";
@@ -15,6 +17,8 @@ import MDViewIcon from "components/MDViewIcon/index";
 import MDDeleteIcon from "components/MDDeleteIcon/index";
 import MDTooltip from "components/MDTooltip/index";
 import MDBox from "components/MDBox/index";
+import MDCheckbox from "components/MDCheckbox";
+import MDInputLabel from "components/MDInputLabel";
 import Loading from "components/Loading";
 
 import { useMaterialUIController } from "context";
@@ -33,6 +37,7 @@ const QuanLyKhachHang = () => {
   const [totalPage, setTotalPage] = useState(0);
   const [openDelete, setOpenDelete] = useState(false);
   const [id, setId] = useState();
+  const [selectedIds, setSelectedIds] = useState([]);
   const [reload, setReload] = useState(false);
   const [filter, setFilter] = useState({
     params: {
@@ -144,6 +149,19 @@ const QuanLyKhachHang = () => {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+  };
+
+  const handleToggleSelect = (id) => {
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+  const handleToggleSelectAll = () => {
+    if (selectedIds.length === listApprove.length) {
+      setSelectedIds([]);
+    } else {
+      setSelectedIds(listApprove.map((item) => item.id));
+    }
   };
 
   const onChangeSearch = useCallback(
@@ -302,7 +320,7 @@ const QuanLyKhachHang = () => {
               <MDTooltip title="Xem chi tiết">
                 <IconButton
                   onClick={() => {
-                    navigate(`/chi-tiet-nhom-quyen/${value}`);
+                    navigate(`/chi-tiet-khach-hang/${value}`);
                   }}
                 >
                   <MDViewIcon fontSize={fontSize} />
@@ -311,7 +329,7 @@ const QuanLyKhachHang = () => {
               <MDTooltip title="Cập nhật">
                 <IconButton
                   onClick={() => {
-                    navigate(`/cap-nhat-nhom-quyen/${value}`);
+                    navigate(`/cap-nhat-khach-hang/${value}`);
                   }}
                 >
                   <MDEditIcon fontSize={fontSize} />
@@ -332,6 +350,39 @@ const QuanLyKhachHang = () => {
           );
         },
       },
+      {
+        key: 7,
+        Header: () => (
+          <MDBox display="flex" alignItems="center">
+            <MDCheckbox
+              isDeleteCheckbox={true}
+              name="remove_items"
+              id="remove_items"
+              checked={
+                selectedIds.length === listApprove.length &&
+                listApprove.length > 0
+              }
+              onChange={handleToggleSelectAll}
+            />
+            <MDTypography variant="h6" color={darkMode ? "white" : "dark"}>
+              Chọn nhiều
+            </MDTypography>
+          </MDBox>
+        ),
+        accessor: "remove_items",
+        Cell: ({ cell }) => {
+          console.log("cell: ", cell);
+          return (
+            <MDBox display="flex" alignItems="center">
+              <MDCheckbox
+                isDeleteCheckbox={true}
+                checked={selectedIds.includes(cell?.row?.original?.id)}
+                onChange={() => handleToggleSelect(cell?.row?.original?.id)}
+              />
+            </MDBox>
+          );
+        },
+      },
     ],
     rows: listApprove,
   };
@@ -348,9 +399,21 @@ const QuanLyKhachHang = () => {
       id: 1,
       title: "Thêm mới",
       onClick: () => {
-        navigate("/them-nhom-quyen");
+        navigate("/them-khach-hang");
       },
     },
+    ...(selectedIds.length > 0
+      ? [
+          {
+            id: 3,
+            title: "Xóa nhiều",
+            onClick: () => {
+              setId(selectedIds);
+              setOpenDelete(true);
+            },
+          },
+        ]
+      : []),
   ];
 
   return (

@@ -5,7 +5,7 @@ import { useMaterialUIController } from "context";
 import colors from "assets/theme/base/colors";
 
 const MDButton = forwardRef(
-  ({ children, color, isDeleteButton = false, ...rest }, ref) => {
+  ({ children, color, isDeleteButton = false, sx, ...rest }, ref) => {
     const [controller] = useMaterialUIController();
     const { darkMode, sidenavColor } = controller;
 
@@ -22,6 +22,7 @@ const MDButton = forwardRef(
         sx={
           isDeleteButton
             ? {
+                ...sx,
                 backgroundColor: `${colors.gradients.error.main} !important`,
                 color: `${colors.white.main} !important`,
                 "&:hover": {
@@ -29,6 +30,7 @@ const MDButton = forwardRef(
                 },
               }
             : {
+                ...sx,
                 backgroundColor: `${effectiveColor} !important`,
                 color: `${colors.white.main} !important`,
                 "&:hover": {
